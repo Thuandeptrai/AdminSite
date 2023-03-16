@@ -86,6 +86,8 @@ const Login = () => {
 
   const onSubmit = data => {
     if (Object.values(data).every(field => field.length > 0)) {
+    
+      console.log(data)
       useJwt
         .login({ email: data.loginEmail, password: data.password })
         .then(res => {
