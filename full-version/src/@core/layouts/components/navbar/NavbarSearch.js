@@ -30,13 +30,13 @@ const NavbarSearch = () => {
   }, [])
 
   // ** Removes query in store
-  //const handleClearQueryInStore = () => dispatch(handleSearchQuery(''))
+  const handleClearQueryInStore = () => dispatch(handleSearchQuery(''))
 
   // ** Function to handle external Input click
   const handleExternalClick = () => {
     if (navbarSearch === true) {
       setNavbarSearch(false)
-   //   handleClearQueryInStore()
+      handleClearQueryInStore()
     }
   }
 
@@ -44,7 +44,7 @@ const NavbarSearch = () => {
   const handleClearInput = setUserInput => {
     if (!navbarSearch) {
       setUserInput('')
-    //  handleClearQueryInStore()
+      handleClearQueryInStore()
     }
   }
 
@@ -53,7 +53,7 @@ const NavbarSearch = () => {
     if (e.keyCode === 27 || e.keyCode === 13) {
       setTimeout(() => {
         setNavbarSearch(false)
-        //handleClearQueryInStore()
+        handleClearQueryInStore()
       }, 1)
     }
   }
@@ -61,16 +61,16 @@ const NavbarSearch = () => {
   // ** Function to handle search suggestion Click
   const handleSuggestionItemClick = () => {
     setNavbarSearch(false)
-   // handleClearQueryInStore()
+    handleClearQueryInStore()
   }
 
   // ** Function to handle search list Click
   const handleListItemClick = (func, link, e) => {
     func(link, e)
-    // setTimeout(() => {
-    //   setNavbarSearch(false)
-    // }, 1)
-    // handleClearQueryInStore()
+    setTimeout(() => {
+      setNavbarSearch(false)
+    }, 1)
+    handleClearQueryInStore()
   }
 
   return (

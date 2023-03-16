@@ -106,16 +106,18 @@ const Login = () => {
     if (Object.values(data).every((field) => field.length > 0)) {
       console.log(data);
       const userData = await loginUser(data.loginEmail, data.password)
-      console.log(userData);
-      dispatch(handleLogin(userData.data))
-      navigate(getHomeRouteForLoggedInUser(data.role))
-      toast((t) => (
-        <ToastContent
-          t={t}
-          role={data.role || "admin"}
-          name={data.fullName || data.username || "John Doe"}
-        />
-      ));
+      if (userData.status === 200) {
+        dispatch(handleLogin(userData.data))
+        navigate("/dashboard/ecommerce")
+        toast((t) => (
+          <ToastContent
+            t={t}
+            role={data.role || "admin"}
+            name={data.fullName || data.username || "John Doe"}
+          />
+        ));
+      }
+  
       // useJwt
       //   .login({ email: data.loginEmail, password: data.password })
       //   .then(res => {
