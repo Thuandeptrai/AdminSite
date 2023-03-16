@@ -15,6 +15,7 @@ import { getUserData, getHomeRouteForLoggedInUser } from '../utility/Utils'
 
 // ** GetRoutes
 import { getRoutes } from './routes'
+import { getCurrentUser } from '../utility/api/user'
 
 // ** Components
 const Error = lazy(() => import('../views/pages/misc/Error'))
@@ -26,20 +27,23 @@ const Router = () => {
   const { layout } = useLayout()
 
   const allRoutes = getRoutes(layout)
-  const getHomeRoute = () => {
-    const user = getUserData()
-    if (user) {
-      return getHomeRouteForLoggedInUser(user)
-    } else {
-      return '/login'
-    }
+  const getHomeRoute =  async() => {
+    if (JSON.parse(localStorage.getItem("userData"))) {
+      const data  = await getCurrentUser()
+      if (data.status === 200) {
+        return "/dashboards/analytics/";
+      } else {
+        return "/login"
+      }
+        
   }
+}
 
   const routes = useRoutes([
     {
       path: '/',
       index: true,
-      element: <Navigate replace to={getHomeRoute()} />
+      element: <Navigate  to={getHomeRoute()} />
     },
     {
       path: '/login',
