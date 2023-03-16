@@ -8,15 +8,12 @@ export const fetchApi = () => {
 
     method: "get" || "delete" || "post" || "patch",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${sessionStorage.getItem("access-token")} `
     }
   }
   const instance = axios.create(defaultOptions);
-  instance.interceptors.request.use(function () {
-     const token = sessionStorage.getItem('access-token');
-     config.headers['Authorization'] = token ? `${token}` : '';
-    return config
-  })
+
   return instance
 }
 export default fetchApi
