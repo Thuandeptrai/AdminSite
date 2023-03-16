@@ -9,7 +9,7 @@ export const fetchApi = () => {
     method: "get" || "delete" || "post" || "patch",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${sessionStorage.getItem("access-token")} `
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem("userData"))} `
     }
   }
   const instance = axios.create(defaultOptions);

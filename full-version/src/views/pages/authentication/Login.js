@@ -1,5 +1,5 @@
 // ** React Imports
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // ** Custom Hooks
@@ -90,8 +90,8 @@ const defaultValues = {
 const Login = () => {
   // ** Hooks
   const { skin } = useSkin();
-  // const dispatch = useDispatch()
-  // const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const ability = useContext(AbilityContext);
   const {
     control,
@@ -105,13 +105,10 @@ const Login = () => {
   const onSubmit = async (data) => {
     if (Object.values(data).every((field) => field.length > 0)) {
       console.log(data);
-      const userData = await axios.post(
-        "http://localhost:4000/api/v1/auth/login",
-        { username: data.loginEmail, password: data.password }
-      );
+      const userData = await loginUser(data.loginEmail, data.password)
       console.log(userData);
-      // dispatch(handleLogin(data))
-      // navigate(getHomeRouteForLoggedInUser(data.role))
+      dispatch(handleLogin(userData.data))
+      navigate(getHomeRouteForLoggedInUser(data.role))
       toast((t) => (
         <ToastContent
           t={t}
@@ -145,7 +142,13 @@ const Login = () => {
       }
     }
   };
-
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userData"))
+    
+    if (user) {
+      navigate("/dashboard/ecommerce")
+    }
+  }, [])
   return (
     <div className="auth-wrapper auth-cover">
       <Row className="auth-inner m-0">
@@ -275,7 +278,7 @@ const Login = () => {
                   render={({ field }) => (
                     <Input
                       autoFocus
-                      type="email"
+                      
                       placeholder="john@example.com"
                       invalid={errors.loginEmail && true}
                       {...field}

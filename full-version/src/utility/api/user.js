@@ -12,3 +12,12 @@ export const getUserAPI = async () => {
     throw error;
   }
 };
+export const getCurrentUser = async () => {
+  const url = `${pathname}/init`
+  try {
+    const response = await fetchApi().get(url)
+    return response;
+  } catch (error) {
+    throw error
+  }
+}
