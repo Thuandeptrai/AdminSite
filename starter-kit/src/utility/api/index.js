@@ -12,7 +12,7 @@ export const fetchApi = () => {
       Authorization: `Bearer ${JSON.parse(localStorage.getItem("userData"))} `
     }
   }
-  const instance = axios.create(defaultOptions);
+  const instance = axios.create(defaultOptions)
 
   return instance
 }

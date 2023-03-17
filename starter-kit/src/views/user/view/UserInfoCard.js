@@ -71,15 +71,15 @@ const UserInfoCard = ({ selectedUser }) => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      username: selectedUser.username,
-      lastName: selectedUser.fullName.split(' ')[1],
-      firstName: selectedUser.fullName.split(' ')[0]
+      username: selectedUser.fullName,
+      lastName: selectedUser.fullName,
+      firstName: selectedUser.fullName
     }
   })
 
   // ** render user img
   const renderUserImg = () => {
-    if (selectedUser !== null && selectedUser.avatar.length) {
+    if (selectedUser !== null && selectedUser.length) {
       return (
         <img
           height='110'
@@ -112,6 +112,7 @@ const UserInfoCard = ({ selectedUser }) => {
   }
 
   const onSubmit = data => {
+    console.log(data)
     if (Object.values(data).every(field => field.length > 0)) {
       setShow(false)
     } else {
@@ -128,18 +129,19 @@ const UserInfoCard = ({ selectedUser }) => {
   const handleReset = () => {
     reset({
       username: selectedUser.username,
-      lastName: selectedUser.fullName.split(' ')[1],
-      firstName: selectedUser.fullName.split(' ')[0]
+      lastName: selectedUser.name,
+      firstName: selectedUser.name
     })
   }
 
   const handleSuspendedClick = () => {
     return MySwal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert user!",
+      title: 'Bạn Có Chắc',
+      text: "Bạn không thể thay đổi quyết định của mình!",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, Suspend user!',
+      confirmButtonText: 'Có',
+      cancelButtonText:"Không",
       customClass: {
         confirmButton: 'btn btn-primary',
         cancelButton: 'btn btn-outline-danger ms-1'
@@ -149,8 +151,8 @@ const UserInfoCard = ({ selectedUser }) => {
       if (result.value) {
         MySwal.fire({
           icon: 'success',
-          title: 'Suspended!',
-          text: 'User has been suspended.',
+          title: 'Xóa nhân nhân viên!',
+          text: 'Tài khoản đã được xóa.',
           customClass: {
             confirmButton: 'btn btn-success'
           }
@@ -177,7 +179,7 @@ const UserInfoCard = ({ selectedUser }) => {
               {renderUserImg()}
               <div className='d-flex flex-column align-items-center text-center'>
                 <div className='user-info'>
-                  <h4>{selectedUser !== null ? selectedUser.fullName : 'Eleanor Aguilar'}</h4>
+                  <h4>{selectedUser !== null ? selectedUser.name : 'Eleanor Aguilar'}</h4>
                   {selectedUser !== null ? (
                     <Badge color={roleColors[selectedUser.role]} className='text-capitalize'>
                       {selectedUser.role}
@@ -188,73 +190,67 @@ const UserInfoCard = ({ selectedUser }) => {
             </div>
           </div>
           <div className='d-flex justify-content-around my-2 pt-75'>
-            <div className='d-flex align-items-start me-2'>
-              <Badge color='light-primary' className='rounded p-75'>
-                <Check className='font-medium-2' />
-              </Badge>
-              <div className='ms-75'>
-                <h4 className='mb-0'>1.23k</h4>
-                <small>Tasks Done</small>
-              </div>
-            </div>
-            <div className='d-flex align-items-start'>
-              <Badge color='light-primary' className='rounded p-75'>
-                <Briefcase className='font-medium-2' />
-              </Badge>
-              <div className='ms-75'>
-                <h4 className='mb-0'>568</h4>
-                <small>Projects Done</small>
-              </div>
-            </div>
+           
+        
           </div>
-          <h4 className='fw-bolder border-bottom pb-50 mb-1'>Details</h4>
+          <h4 className='fw-bolder border-bottom pb-50 mb-1'>Thông Tin Chi Tiết</h4>
           <div className='info-container'>
             {selectedUser !== null ? (
               <ul className='list-unstyled'>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Username:</span>
-                  <span>{selectedUser.username}</span>
+                  <span className='fw-bolder me-25'>Tên Riêng:</span>
+                  <span>{selectedUser.name}</span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Billing Email:</span>
+                  <span className='fw-bolder me-25'> Email:</span>
                   <span>{selectedUser.email}</span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Status:</span>
-                  <Badge className='text-capitalize' color={statusColors[selectedUser.status]}>
-                    {selectedUser.status}
-                  </Badge>
+                  <span className='fw-bolder me-25'>Trạng Thái Nhân Viên:</span>
+                 
+                    {selectedUser.status === "True" ? "Nhân Viên Chính Thức" : "Thử Việc"}
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Role:</span>
-                  <span className='text-capitalize'>{selectedUser.role}</span>
+                  <span className='fw-bolder me-25'>Chức Vụ :</span>
+                  <span className='text-capitalize'>{selectedUser.isAdmin ? "Quản Lý" : "Nhân Viên"}</span>
+                </li>
+              
+                <li className='mb-75'>
+                  <span className='fw-bolder me-25'>Ban:</span>
+                  <span>{selectedUser.department}</span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Tax ID:</span>
-                  <span>Tax-{selectedUser.contact.substr(selectedUser.contact.length - 4)}</span>
+                  <span className='fw-bolder me-25'>Số Điện Thoại:</span>
+                  <span>{selectedUser.phonenumber}</span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Contact:</span>
-                  <span>{selectedUser.contact}</span>
+                  <span className='fw-bolder me-25'>Tên Ngân Hàng:</span>
+                  <span>{selectedUser.bankName}</span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Language:</span>
-                  <span>English</span>
+                  <span className='fw-bolder me-25'>Số Tài Khoản:</span>
+                  <span>{selectedUser.userBankNumber}</span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Country:</span>
-                  <span>England</span>
+                  <span className='fw-bolder me-25'>Số Tài Khoản:</span>
+                  <span>{selectedUser.salary}</span>
                 </li>
               </ul>
             ) : null}
           </div>
           <div className='d-flex justify-content-center pt-2'>
+          {
+             selectedUser.isAdmin === "True" ? <>
+            
             <Button color='primary' onClick={() => setShow(true)}>
-              Edit
+              Chỉnh sửa 
             </Button>
-            <Button className='ms-1' color='danger' outline onClick={handleSuspendedClick}>
-              Suspended
-            </Button>
+             <Button className='ms-1' color='danger' outline onClick={handleSuspendedClick}>
+            Suspended
+          </Button>
+             </> : null
+
+            }
           </div>
         </CardBody>
       </Card>
@@ -267,62 +263,52 @@ const UserInfoCard = ({ selectedUser }) => {
           </div>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className='gy-1 pt-75'>
-              <Col md={6} xs={12}>
-                <Label className='form-label' for='firstName'>
-                  First Name
-                </Label>
-                <Controller
-                  defaultValue=''
-                  control={control}
-                  id='firstName'
-                  name='firstName'
-                  render={({ field }) => (
-                    <Input {...field} id='firstName' placeholder='John' invalid={errors.firstName && true} />
-                  )}
-                />
-              </Col>
-              <Col md={6} xs={12}>
+            
+              <Col md={12} xs={12}>
                 <Label className='form-label' for='lastName'>
-                  Last Name
+                  Tên:
                 </Label>
                 <Controller
-                  defaultValue=''
+                  defaultValue={selectedUser.name}
                   control={control}
                   id='lastName'
                   name='lastName'
                   render={({ field }) => (
-                    <Input {...field} id='lastName' placeholder='Doe' invalid={errors.lastName && true} />
+                    <Input {...field} id='lastName' placeholder='Doe' invalid={errors.name && true} />
                   )}
                 />
               </Col>
               <Col xs={12}>
                 <Label className='form-label' for='username'>
-                  Username
+                  Mã Số Nhân Viên
                 </Label>
                 <Controller
-                  defaultValue=''
+                  defaultValue={selectedUser.employeeNumber}
                   control={control}
                   id='username'
                   name='username'
                   render={({ field }) => (
-                    <Input {...field} id='username' placeholder='john.doe.007' invalid={errors.username && true} />
+                    <Input {...field} id='username' placeholder='john.doe.007' invalid={errors.employeeNumber && true} />
                   )}
                 />
               </Col>
               <Col md={6} xs={12}>
                 <Label className='form-label' for='billing-email'>
-                  Billing Email
+                   Email
                 </Label>
                 <Input
                   type='email'
                   id='billing-email'
                   defaultValue={selectedUser.email}
                   placeholder='example@domain.com'
+                  render={({ field }) => (
+                    <Input {...field} id='username' placeholder='john.doe.007' invalid={errors.email && true} />
+                  )}
                 />
               </Col>
               <Col md={6} xs={12}>
                 <Label className='form-label' for='status'>
-                  Status:
+                  Trạng Thái Nhân Viên:
                 </Label>
                 <Select
                   id='status'
@@ -341,7 +327,6 @@ const UserInfoCard = ({ selectedUser }) => {
                 <Input
                   id='tax-id'
                   placeholder='Tax-1234'
-                  defaultValue={selectedUser.contact.substr(selectedUser.contact.length - 4)}
                 />
               </Col>
               <Col md={6} xs={12}>

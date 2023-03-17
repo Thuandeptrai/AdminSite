@@ -25,19 +25,9 @@ const NotAuthorized = lazy(() => import('../views/pages/misc/NotAuthorized'))
 const Router = () => {
   // ** Hooks
   const { layout } = useLayout()
-
+  console.log(layout)
   const allRoutes = getRoutes(layout)
-  const getHomeRoute =  async() => {
-    if (JSON.parse(localStorage.getItem("userData"))) {
-      const data  = await getCurrentUser()
-      if (data.status === 200) {
-        return "/dashboards/analytics/";
-      } else {
-        return "/login"
-      }
-        
-  }
-}
+
 
   const routes = useRoutes([
     {

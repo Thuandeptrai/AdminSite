@@ -8,7 +8,7 @@ import Sidebar from './Sidebar'
 import { columns } from './columns'
 
 // ** Store & Actions
-import { getAllData, getData } from '../store'
+import { getAllData, getData, getUserForVerify } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -167,8 +167,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
 const UsersList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.users)
-
+  const store = useSelector(state => state.userApp.data)
   // ** States
   const [sort, setSort] = useState('desc')
   const [searchTerm, setSearchTerm] = useState('')
@@ -179,26 +178,17 @@ const UsersList = () => {
   const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
   const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
-
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
-
   // ** Get data on mount
   useEffect(() => {
     dispatch(getAllData())
     dispatch(
-      getData({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        page: currentPage,
-        perPage: rowsPerPage,
-        role: currentRole.value,
-        status: currentStatus.value,
-        currentPlan: currentPlan.value
-      })
+      getData()
     )
-  }, [dispatch, store.data.length, sort, sortColumn, currentPage])
+
+  
+  }, [])
 
   // ** User filter options
   const roleOptions = [
@@ -228,16 +218,9 @@ const UsersList = () => {
   // ** Function in get data on page change
   const handlePagination = page => {
     dispatch(
-      getData({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        perPage: rowsPerPage,
-        page: page.selected + 1,
-        role: currentRole.value,
-        status: currentStatus.value,
-        currentPlan: currentPlan.value
-      })
+      getData(
+      
+      )
     )
     setCurrentPage(page.selected + 1)
   }
@@ -360,14 +343,7 @@ const UsersList = () => {
                   setCurrentRole(data)
                   dispatch(
                     getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      role: data.value,
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      status: currentStatus.value,
-                      currentPlan: currentPlan.value
+           
                     })
                   )
                 }}
@@ -386,14 +362,7 @@ const UsersList = () => {
                   setCurrentPlan(data)
                   dispatch(
                     getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: data.value,
-                      status: currentStatus.value
+              
                     })
                   )
                 }}
@@ -412,14 +381,7 @@ const UsersList = () => {
                   setCurrentStatus(data)
                   dispatch(
                     getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      page: currentPage,
-                      status: data.value,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: currentPlan.value
+                 
                     })
                   )
                 }}
@@ -443,15 +405,11 @@ const UsersList = () => {
             sortIcon={<ChevronDown />}
             className='react-dataTable'
             paginationComponent={CustomPagination}
-            data={dataToRender()}
+            data={store.length !== undefined ? store : [store]}
             subHeaderComponent={
               <CustomHeader
                 store={store}
-                searchTerm={searchTerm}
-                rowsPerPage={rowsPerPage}
-                handleFilter={handleFilter}
-                handlePerPage={handlePerPage}
-                toggleSidebar={toggleSidebar}
+               
               />
             }
           />

@@ -1,21 +1,32 @@
 // ** Router imports
-import { useRoutes } from "react-router-dom";
+import { useLocation, useNavigate, useRoutes } from "react-router-dom"
 
 // ** GetRoutes
-import { getRoutes } from "./routes";
+import { getRoutes } from "./routes"
 
 // ** Hooks Imports
-import { useLayout } from "@hooks/useLayout";
+import { useLayout } from "@hooks/useLayout"
+import { atom, useAtom } from "jotai"
+import { userAtom } from "../App"
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { getUserForVerify } from "../views/user/store"
+
 
 const Router = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   // ** Hooks
-  const { layout } = useLayout();
+  dispatch(getUserForVerify())
 
-  const allRoutes = getRoutes(layout);
+  
+  const { layout } = useLayout()
 
-  const routes = useRoutes([...allRoutes]);
+  const allRoutes = getRoutes(layout)
+  const routes = useRoutes([...allRoutes])
 
-  return routes;
-};
 
-export default Router;
+  return routes
+}
+
+export default Router

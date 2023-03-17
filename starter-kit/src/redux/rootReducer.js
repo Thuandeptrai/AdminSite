@@ -1,7 +1,7 @@
 // ** Reducers Imports
-import layout from "./layout";
-import navbar from "./navbar";
+import layout from "./layout"
+import navbar from "./navbar"
+import userApp  from '../views/user/store/index'
+const rootReducer = { navbar, layout,  userApp}
 
-const rootReducer = { navbar, layout };
-
-export default rootReducer;
+export default rootReducer

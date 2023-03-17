@@ -12,17 +12,20 @@ import { User, UserPlus, UserCheck, UserX } from 'react-feather'
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
+import { useSelector } from 'react-redux'
 
 const UsersList = () => {
+  const store = useSelector(state => state.userApp.data)
+  console.log(store)
   return (
     <div className='app-user-list'>
       <Row>
         <Col lg='3' sm='6'>
           <StatsHorizontal
             color='primary'
-            statTitle='Total Users'
+            statTitle='Tổng Nhân viên'
             icon={<User size={20} />}
-            renderStats={<h3 className='fw-bolder mb-75'>21,459</h3>}
+            renderStats={<h3 className='fw-bolder mb-75'>{store.length}</h3>}
           />
         </Col>
         <Col lg='3' sm='6'>

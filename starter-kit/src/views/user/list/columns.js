@@ -16,7 +16,8 @@ import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem
 
 // ** Renders Client Columns
 const renderClient = row => {
-  if (row.avatar.length) {
+  console.log(row)
+  if (row.length) {
     return <Avatar className='me-1' img={row.avatar} width='32' height='32' />
   } else {
     return (
@@ -59,8 +60,8 @@ const renderRole = row => {
 
   return (
     <span className='text-truncate text-capitalize align-middle'>
-      <Icon size={18} className={`${roleObj[row.role] ? roleObj[row.role].class : ''} me-50`} />
-      {row.role}
+
+      {row.isAdmin ? "Admin" : "User"}
     </span>
   )
 }
@@ -73,10 +74,10 @@ const statusObj = {
 
 export const columns = [
   {
-    name: 'User',
+    name: 'Email',
     sortable: true,
-    minWidth: '300px',
-    sortField: 'fullName',
+    minWidth: '250px',
+    sortField: 'Email',
     selector: row => row.fullName,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
@@ -95,43 +96,79 @@ export const columns = [
     )
   },
   {
-    name: 'Role',
+    name: 'Cấp bậc',
     sortable: true,
-    minWidth: '172px',
+    minWidth: '82px',
     sortField: 'role',
     selector: row => row.role,
     cell: row => renderRole(row)
   },
   {
-    name: 'Plan',
-    minWidth: '138px',
+    name: 'MSNV',
+    minWidth: '100px',
     sortable: true,
     sortField: 'currentPlan',
-    selector: row => row.currentPlan,
-    cell: row => <span className='text-capitalize'>{row.currentPlan}</span>
+    selector: row => row.employeeNumber,
+    cell: row => <span className='text-capitalize'>{row.employeeNumber}</span>
   },
   {
-    name: 'Billing',
-    minWidth: '230px',
+    name: 'Phòng ban',
+    minWidth: '100px',
     sortable: true,
     sortField: 'billing',
-    selector: row => row.billing,
-    cell: row => <span className='text-capitalize'>{row.billing}</span>
+    selector: row => row.department,
+    cell: row => <span className='text-capitalize'>{row.department}</span>
   },
   {
-    name: 'Status',
-    minWidth: '138px',
+    name: 'Trạng Thái',
+    minWidth: '100px',
     sortable: true,
     sortField: 'status',
     selector: row => row.status,
     cell: row => (
-      <Badge className='text-capitalize' color={statusObj[row.status]} pill>
+      <span className='text-capitalize' >
         {row.status}
-      </Badge>
+      </span>
     )
   },
   {
-    name: 'Actions',
+    name: 'Mức Lương',
+    minWidth: '100px',
+    sortable: true,
+    sortField: 'status',
+    selector: row => row.salary,
+    cell: row => (
+      <span className='text-capitalize' >
+        {row.salary}
+      </span>
+    )
+  },
+  {
+    name: 'Ngân Hàng',
+    minWidth: '100px',
+    sortable: true,
+    sortField: 'status',
+    selector: row => row.bankName,
+    cell: row => (
+      <span className='text-capitalize' >
+        {row.bankName}
+      </span>
+    )
+  },
+  {
+    name: 'Số Điện Thoại',
+    minWidth: '100px',
+    sortable: true,
+    sortField: 'status',
+    selector: row => row.phonenumber,
+    cell: row => (
+      <span className='text-capitalize' >
+        {row.phonenumber}
+      </span>
+    )
+  },
+  {
+    name: 'Hành Động',
     minWidth: '100px',
     cell: row => (
       <div className='column-action'>
@@ -143,7 +180,7 @@ export const columns = [
             <DropdownItem
               tag={Link}
               className='w-100'
-              to={`/apps/user/view/${row.id}`}
+              to={`/UserView/${row.id}`}
               onClick={() => store.dispatch(getUser(row.id))}
             >
               <FileText size={14} className='me-50' />

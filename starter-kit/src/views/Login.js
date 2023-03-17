@@ -1,12 +1,12 @@
 // ** React Imports
-import { useSkin } from "@hooks/useSkin";
-import { Link } from "react-router-dom";
+import { useSkin } from "@hooks/useSkin"
+import { Link, useNavigate } from "react-router-dom"
 
 // ** Icons Imports
-import { Facebook, Twitter, Mail, GitHub } from "react-feather";
+import { Facebook, Twitter, Mail, GitHub } from "react-feather"
 
 // ** Custom Components
-import InputPasswordToggle from "@components/input-password-toggle";
+import InputPasswordToggle from "@components/input-password-toggle"
 
 // ** Reactstrap Imports
 import {
@@ -17,20 +17,39 @@ import {
   Form,
   Label,
   Input,
-  Button,
-} from "reactstrap";
+  Button
+} from "reactstrap"
 
 // ** Illustrations Imports
-import illustrationsLight from "@src/assets/images/pages/login-v2.svg";
-import illustrationsDark from "@src/assets/images/pages/login-v2-dark.svg";
+import illustrationsLight from "@src/assets/images/pages/login-v2.svg"
+import illustrationsDark from "@src/assets/images/pages/login-v2-dark.svg"
 
 // ** Styles
-import "@styles/react/pages/page-authentication.scss";
+import "@styles/react/pages/page-authentication.scss"
+import { useState } from "react"
+import { loginUser } from "../utility/api/authen"
+import { useDispatch } from "react-redux"
+import { getUserForVerify } from "./user/store"
 
 const Login = () => {
-  const { skin } = useSkin();
-
-  const source = skin === "dark" ? illustrationsDark : illustrationsLight;
+  const { skin } = useSkin()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [username, setUserName] = useState("")
+  const [password, setPassWord] = useState("")
+  
+  const handleLogin  =  async () => {
+    const userData = await loginUser(username, password)
+    console.log(userData)
+    if (userData.status === 200) {
+      localStorage.setItem("userData", JSON.stringify(userData.data))
+      dispatch(getUserForVerify())
+      navigate("/home")
+    }
+    
+  }
+  console.log(password)
+  const source = skin === "dark" ? illustrationsDark : illustrationsLight
 
   return (
     <div className="auth-wrapper auth-cover">
@@ -127,13 +146,14 @@ const Login = () => {
             >
               <div className="mb-1">
                 <Label className="form-label" for="login-email">
-                  Email
+                  MSNV/SDT
                 </Label>
                 <Input
-                  type="email"
                   id="login-email"
                   placeholder="john@example.com"
                   autoFocus
+                  value={username}
+                  onChange={(e) => setUserName(e.target.value)}
                 />
               </div>
               <div className="mb-1">
@@ -148,15 +168,16 @@ const Login = () => {
                 <InputPasswordToggle
                   className="input-group-merge"
                   id="login-password"
+                  value={password} onChange={(e) => setPassWord(e.target.value)}
                 />
               </div>
               <div className="form-check mb-1">
-                <Input type="checkbox" id="remember-me" />
+                <Input type="checkbox" id="remember-me"  />
                 <Label className="form-check-label" for="remember-me">
                   Remember Me
                 </Label>
               </div>
-              <Button tag={Link} to="/" color="primary" block>
+              <Button color="primary" onClick={handleLogin} block>
                 Sign in
               </Button>
             </Form>
@@ -187,7 +208,7 @@ const Login = () => {
         </Col>
       </Row>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
