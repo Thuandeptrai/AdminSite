@@ -8,9 +8,7 @@ import { getCurrentUser } from "../../../utility/api/user";
 
 export const getAllData = createAsyncThunk("appUsers/getAllData", async () => {
   const response = await fetchApi().get("/users/getAllUser");
-  console.log("response:", response);
-
-  return response.data.data.data;
+  return response.data.data;
 });
 
 export const getData = createAsyncThunk("appUsers/getData", async (params) => {
@@ -40,13 +38,9 @@ export const addUser = createAsyncThunk(
 export const deleteUser = createAsyncThunk(
   "appUsers/deleteUser",
   async (id, { dispatch, getState }) => {
-    // console.log(`id`,id)
-    // await axios.delete("/apps/users/delete", { id });
-    await fetchApi().delete(`/users/delete/${id}`);
+    const rs = await fetchApi().delete(`/users/delete/${id}`);
 
-    await dispatch(getData(getState().users.params));
-    await dispatch(getAllData());
-    return id;
+    return await dispatch(getAllData());
   }
 );
 export const getUserForVerify = createAsyncThunk(
@@ -85,7 +79,7 @@ export const appUsersSlice = createSlice({
         state.selectedUser = action.payload;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
-        state.allData = action.payload;
+        state.data = action.payload.payload;
       });
   },
 });

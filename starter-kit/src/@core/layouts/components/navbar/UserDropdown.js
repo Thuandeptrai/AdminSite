@@ -32,11 +32,13 @@ import { useEffect } from "react";
 const UserDropdown = () => {
   let getCurrentUser = ""
    getCurrentUser = useSelector(state => state.userApp.currentUser)
+   
   const handleDispatch =  async () => {
     localStorage.removeItem("userData")
     useDispatch(getUserForVerify())
     
   }
+  
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       <DropdownToggle

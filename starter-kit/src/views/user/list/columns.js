@@ -1,12 +1,12 @@
 // ** React Imports
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 // ** Custom Components
 import Avatar from "@components/avatar";
 
 // ** Store & Actions
 import { store } from "@store/store";
-console.log("store:", store);
 import { getUser, deleteUser } from "../store";
 
 // ** Icons Imports
@@ -21,6 +21,7 @@ import {
   Trash2,
   Archive,
 } from "react-feather";
+import { message } from "antd";
 
 // ** Reactstrap Imports
 import {
@@ -33,7 +34,6 @@ import {
 
 // ** Renders Client Columns
 const renderClient = (row) => {
-  console.log(row);
   if (row.length) {
     return <Avatar className="me-1" img={row.avatar} width="32" height="32" />;
   } else {
@@ -77,17 +77,27 @@ const renderRole = (row) => {
 
   return (
     <span className="text-truncate text-capitalize align-middle">
-      {row.isAdmin ? "Admin" : "User"}
+      {row.isAdmin === "True" ? "Admin" : "Nhân viên"}
     </span>
   );
 };
+//delete user
 
+const onDeleteHandle = async (id) => {
+  const rs = await store.dispatch(deleteUser(id));
+  console.log("rs:", rs);
+  if (rs?.meta?.requestStatus === "fulfilled") {
+    message.success("Thành công");
+  }else{
+    message.error("Có lỗi xảy ra");
+
+  }
+};
 const statusObj = {
   pending: "light-warning",
   active: "light-success",
   inactive: "light-secondary",
 };
-
 export const columns = [
   {
     name: "Email",
@@ -137,14 +147,14 @@ export const columns = [
     selector: (row) => row.department,
     cell: (row) => <span className="text-capitalize">{row.department}</span>,
   },
-  {
-    name: "Trạng Thái",
-    minWidth: "100px",
-    sortable: true,
-    sortField: "status",
-    selector: (row) => row.status,
-    cell: (row) => <span className="text-capitalize">{row.status}</span>,
-  },
+  // {
+  //   name: "Trạng Thái",
+  //   minWidth: "100px",
+  //   sortable: true,
+  //   sortField: "status",
+  //   selector: (row) => row.status,
+  //   cell: (row) => <span className="text-capitalize">{row.status}</span>,
+  // },
   {
     name: "Mức Lương",
     minWidth: "100px",
@@ -203,7 +213,9 @@ export const columns = [
               className="w-100"
               onClick={(e) => {
                 e.preventDefault();
-                store.dispatch(deleteUser(row.id));
+                onDeleteHandle(row.id);
+
+                // store.dispatch(deleteUser(row.id));
               }}
             >
               <Trash2 size={14} className="me-50" />
