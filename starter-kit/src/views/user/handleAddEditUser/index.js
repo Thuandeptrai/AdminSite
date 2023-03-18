@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form, Input, Row, Col, Select } from "antd";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "./../store/index";
 const AddEditUser = () => {
+  const dispatch = useDispatch();
+  const store = useSelector((state) => state.userApp.selectedUser);
+  console.log("store:", store);
+  const [form] = Form.useForm();
   const { handle, id } = useParams();
-  console.log("useParams:", useParams());
   const [departmentValue, setDepartmentValue] = useState({
     value: "it",
     label: "IT",
@@ -26,13 +31,28 @@ const AddEditUser = () => {
       label: "Admin",
     },
   ];
+  const getUserDataDetail = async () => {
+    const rs = await dispatch(getUser(id));
+    const data = rs.payload;
+    form.setFieldsValue({
+      ...data,
+    });
+  };
+  const onFinish = async (value) => {
+    console.log("value:", value);
+  };
+  useEffect(() => {
+    if (id !== "new") getUserDataDetail();
+  }, [id]);
   return (
     <>
       <Form
+        form={form}
         name="basic"
         layout="vertical"
-        // onFinish={onFinish}
+        onFinish={onFinish}
         // onFinishFailed={onFinishFailed}
+
         autoComplete="off"
       >
         <Row gutter={16}>
@@ -106,7 +126,7 @@ const AddEditUser = () => {
               <Col span="24">
                 <Form.Item
                   label="Email"
-                  name="password"
+                  name="email"
                   rules={[
                     { required: true, message: "Please input your password!" },
                   ]}
