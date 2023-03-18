@@ -13,4 +13,10 @@ export default [
     icon: <Mail size={20} />,
     navLink: "/second-page",
   },
+  {
+    id: "managerUser",
+    title: "Quản lí nhân sự",
+    icon: <Mail size={20} />,
+    navLink: "/UserView",
+  },
 ];
