@@ -6,7 +6,7 @@ import Avatar from "@components/avatar";
 
 // ** Store & Actions
 import { store } from "@store/store";
-console.log('store:', store)
+console.log("store:", store);
 import { getUser, deleteUser } from "../store";
 
 // ** Icons Imports

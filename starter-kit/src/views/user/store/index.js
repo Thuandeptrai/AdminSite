@@ -40,8 +40,10 @@ export const addUser = createAsyncThunk(
 export const deleteUser = createAsyncThunk(
   "appUsers/deleteUser",
   async (id, { dispatch, getState }) => {
-    await axios.delete("/apps/users/delete", { id });
-    
+    // console.log(`id`,id)
+    // await axios.delete("/apps/users/delete", { id });
+    await fetchApi().delete(`/users/delete/${id}`);
+
     await dispatch(getData(getState().users.params));
     await dispatch(getAllData());
     return id;
@@ -81,6 +83,9 @@ export const appUsersSlice = createSlice({
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.selectedUser = action.payload;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.allData = action.payload;
       });
   },
 });
