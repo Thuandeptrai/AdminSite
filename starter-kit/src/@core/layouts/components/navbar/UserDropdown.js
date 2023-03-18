@@ -1,8 +1,8 @@
 // ** React Imports
-import { Link } from "react-router-dom"
-
+import { Link } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 // ** Custom Components
-import Avatar from "@components/avatar"
+import Avatar from "@components/avatar";
 
 // ** Third Party Components
 import {
@@ -13,27 +13,37 @@ import {
   Settings,
   CreditCard,
   HelpCircle,
-  Power
-} from "react-feather"
+  Power,
+} from "react-feather";
 
 // ** Reactstrap Imports
 import {
   UncontrolledDropdown,
   DropdownMenu,
   DropdownToggle,
-  DropdownItem
-} from "reactstrap"
-import { useDispatch } from "react-redux"
+  DropdownItem,
+} from "reactstrap";
+import { useDispatch } from "react-redux";
 // ** Default Avatar Image
-import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg"
-import { getUserForVerify } from "../../../../views/user/store"
+import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg";
+import { getUserForVerify } from "../../../../views/user/store";
+import { useEffect } from "react";
 
 const UserDropdown = () => {
-  const handleDispatch =  async () => {
-    localStorage.removeItem("userData")
-    useDispatch(getUserForVerify())
-    
-  }
+  const handleDispatch = async () => {
+    localStorage.removeItem("userData");
+    useDispatch(getUserForVerify());
+  };
+  const getInfoUser = () => {
+    const token = JSON.stringify(localStorage.getItem("userData"));
+    const decoded = jwt_decode(token);
+    console.log("decoded:", decoded);
+
+    console.log(decoded);
+  };
+  useEffect(() => {
+    getInfoUser();
+  }, []);
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       <DropdownToggle
@@ -43,7 +53,7 @@ const UserDropdown = () => {
         onClick={(e) => e.preventDefault()}
       >
         <div className="user-nav d-sm-flex d-none">
-          <span className="user-name fw-bold">John Doe</span>
+          <span className="user-name fw-bold">Quy</span>
           <span className="user-status">Admin</span>
         </div>
         <Avatar
@@ -57,7 +67,7 @@ const UserDropdown = () => {
         <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
           <User size={14} className="me-75" />
           <span className="align-middle">Profile</span>
-        </DropdownItem> 
+        </DropdownItem>
         <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
           <Mail size={14} className="me-75" />
           <span className="align-middle">Inbox</span>
@@ -93,7 +103,7 @@ const UserDropdown = () => {
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>
-  )
-}
+  );
+};
 
-export default UserDropdown
+export default UserDropdown;

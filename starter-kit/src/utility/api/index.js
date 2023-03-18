@@ -1,5 +1,5 @@
-import axios from "axios"
-import React from "react"
+import axios from "axios";
+import React from "react";
 
 export const fetchApi = () => {
   const defaultOptions = {
@@ -9,11 +9,11 @@ export const fetchApi = () => {
     method: "get" || "delete" || "post" || "patch",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${JSON.parse(localStorage.getItem("userData"))} `
-    }
-  }
-  const instance = axios.create(defaultOptions)
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem("userData"))} `,
+    },
+  };
+  const instance = axios.create(defaultOptions);
 
-  return instance
-}
-export default fetchApi
+  return instance;
+};
+export default fetchApi;
