@@ -125,6 +125,7 @@ const MergeLayoutRoutes = (layout, defaultLayout) => {
       return LayoutRoutes
     })
   }
+  console.log(LayoutRoutes)
   return LayoutRoutes
 }
 
@@ -136,13 +137,14 @@ const getRoutes = (layout) => {
 
   layouts.forEach((layoutItem) => {
     const LayoutRoutes = MergeLayoutRoutes(layoutItem, defaultLayout)
-
+    console.log("asd", LayoutRoutes)
     AllRoutes.push({
       path: "/",
       element: getLayout[layoutItem] || getLayout[defaultLayout],
       children: LayoutRoutes
     })
   })
+  console.log(AllRoutes)
   return AllRoutes
 }
 

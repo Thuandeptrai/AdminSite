@@ -1,9 +1,11 @@
 import React, { Suspense } from "react"
-import { Provider, atom  } from "jotai"
+import { Provider, atom } from "jotai"
 
 // ** Router Import
-import Router from "./router/Router"
+import RouterApp from "./router/Router"
 import { getCurrentUser } from "./utility/api/user"
+import { useDispatch } from "react-redux"
+import { getUserForVerify } from "./views/user/store"
 
 export const userAtom = atom(async () => {
   const response = await getCurrentUser()
@@ -13,18 +15,16 @@ export const userAtom = atom(async () => {
   } else {
     return false
   }
-
-
 })
 
-
 const App = () => {
+  const dispatch = useDispatch()
+  dispatch(getUserForVerify())
   return (
     <Provider>
-
-    <Suspense fallback={null}>
-      <Router />
-    </Suspense>
+      <Suspense fallback={null}>
+        <RouterApp />
+      </Suspense>
     </Provider>
   )
 }

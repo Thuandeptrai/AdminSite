@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom"
 
 // ** Redux Imports
 import { store } from "./redux/store"
-import { Provider } from "react-redux"
+import { Provider, useDispatch } from "react-redux"
 
 // ** ThemeColors Context
 
@@ -41,6 +41,7 @@ import "./assets/scss/style.scss"
 
 // ** Service Worker
 import * as serviceWorker from "./serviceWorker"
+
 
 // ** Lazy load app
 const LazyApp = lazy(() => import("./App"))
