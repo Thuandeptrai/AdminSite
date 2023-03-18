@@ -1,8 +1,8 @@
 // ** React Imports
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 // ** Custom Components
-import Avatar from "@components/avatar";
+import Avatar from "@components/avatar"
 
 // ** Third Party Components
 import {
@@ -13,21 +13,27 @@ import {
   Settings,
   CreditCard,
   HelpCircle,
-  Power,
-} from "react-feather";
+  Power
+} from "react-feather"
 
 // ** Reactstrap Imports
 import {
   UncontrolledDropdown,
   DropdownMenu,
   DropdownToggle,
-  DropdownItem,
-} from "reactstrap";
-
+  DropdownItem
+} from "reactstrap"
+import { useDispatch } from "react-redux"
 // ** Default Avatar Image
-import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg";
+import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg"
+import { getUserForVerify } from "../../../../views/user/store"
 
 const UserDropdown = () => {
+  const handleDispatch =  async () => {
+    localStorage.removeItem("userData")
+    useDispatch(getUserForVerify())
+    
+  }
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       <DropdownToggle
@@ -51,7 +57,7 @@ const UserDropdown = () => {
         <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
           <User size={14} className="me-75" />
           <span className="align-middle">Profile</span>
-        </DropdownItem>
+        </DropdownItem> 
         <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
           <Mail size={14} className="me-75" />
           <span className="align-middle">Inbox</span>
@@ -81,13 +87,13 @@ const UserDropdown = () => {
           <HelpCircle size={14} className="me-75" />
           <span className="align-middle">FAQ</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to="/login">
+        <DropdownItem tag={Link} to="/login" onClick={handleDispatch}>
           <Power size={14} className="me-75" />
           <span className="align-middle">Logout</span>
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>
-  );
-};
+  )
+}
 
-export default UserDropdown;
+export default UserDropdown
