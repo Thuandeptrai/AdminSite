@@ -21,29 +21,22 @@ import {
   UncontrolledDropdown,
   DropdownMenu,
   DropdownToggle,
-  DropdownItem,
-} from "reactstrap";
-import { useDispatch } from "react-redux";
+  DropdownItem
+} from "reactstrap"
+import { useDispatch, useSelector } from "react-redux"
 // ** Default Avatar Image
 import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg";
 import { getUserForVerify } from "../../../../views/user/store";
 import { useEffect } from "react";
 
 const UserDropdown = () => {
-  const handleDispatch = async () => {
-    localStorage.removeItem("userData");
-    useDispatch(getUserForVerify());
-  };
-  const getInfoUser = () => {
-    const token = JSON.stringify(localStorage.getItem("userData"));
-    const decoded = jwt_decode(token);
-    console.log("decoded:", decoded);
-
-    console.log(decoded);
-  };
-  useEffect(() => {
-    getInfoUser();
-  }, []);
+  let getCurrentUser = ""
+   getCurrentUser = useSelector(state => state.userApp.currentUser)
+  const handleDispatch =  async () => {
+    localStorage.removeItem("userData")
+    useDispatch(getUserForVerify())
+    
+  }
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       <DropdownToggle
@@ -53,8 +46,8 @@ const UserDropdown = () => {
         onClick={(e) => e.preventDefault()}
       >
         <div className="user-nav d-sm-flex d-none">
-          <span className="user-name fw-bold">Quy</span>
-          <span className="user-status">Admin</span>
+          <span className="user-name fw-bold">{getCurrentUser?.name || ""}</span>
+          <span className="user-status">{getCurrentUser?.isAdmin === "True" ? "Admin" : "User"}</span>
         </div>
         <Avatar
           img={defaultAvatar}
