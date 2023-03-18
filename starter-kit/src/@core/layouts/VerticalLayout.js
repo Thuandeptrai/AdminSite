@@ -11,18 +11,32 @@ import {
 } from "@store/layout"
 
 // ** Third Party Components
-import Select from 'react-select'
+import Select from "react-select"
 
 import classnames from "classnames"
-import { ArrowUp, Check, Briefcase, X  } from "react-feather"
+import { ArrowUp, Check, Briefcase, X } from "react-feather"
 
 // ** Reactstrap Imports
-import { Navbar, Row, Col, Card, Form, CardBody, Button, Badge, Modal, Input, Label, ModalBody, ModalHeader  } from "reactstrap"
+import {
+  Navbar,
+  Row,
+  Col,
+  Card,
+  Form,
+  CardBody,
+  Button,
+  Badge,
+  Modal,
+  Input,
+  Label,
+  ModalBody,
+  ModalHeader
+} from "reactstrap"
 
 // ** Configs
 import themeConfig from "@configs/themeConfig"
 
-import moment from 'moment'
+import moment from "moment"
 // ** Custom Components
 
 import Customizer from "@components/customizer"
@@ -30,6 +44,7 @@ import ScrollToTop from "@components/scrolltop"
 import FooterComponent from "./components/footer"
 import NavbarComponent from "./components/navbar"
 import SidebarComponent from "./components/menu/vertical-menu"
+import { useForm, Controller } from "react-hook-form"
 
 // ** Custom Hooks
 import { useRTL } from "@hooks/useRTL"
@@ -44,11 +59,10 @@ import { useNavbarColor } from "@hooks/useNavbarColor"
 import "@styles/base/core/menu/menu-types/vertical-menu.scss"
 import "@styles/base/core/menu/menu-types/vertical-overlay-menu.scss"
 
-
 const VerticalLayout = (props) => {
   // ** Props
   const { menu, navbar, footer, children, menuData } = props
-  const getCurrentUser = useSelector(state => state.userApp.currentUser)
+  const getCurrentUser = useSelector((state) => state.userApp.currentUser)
   // ** Hooks
   const [isRtl, setIsRtl] = useRTL()
   const { skin, setSkin } = useSkin()
@@ -71,7 +85,7 @@ const VerticalLayout = (props) => {
   }, [])
 
   const handleCloseModal = () => {
-    setIsModalOpen(false)
+    setShow(false)
   }
   // ** Vars
   const dispatch = useDispatch()
@@ -81,6 +95,9 @@ const VerticalLayout = (props) => {
   const handleWindowWidth = () => {
     setWindowWidth(window.innerWidth)
   }
+  const { control, field, setError, handleSubmit } = useForm({
+    defaultValues: {}
+  })
 
   // ** Vars
   const location = useLocation()
@@ -114,7 +131,9 @@ const VerticalLayout = (props) => {
   //** ComponentDidMount
   useEffect(() => {
     setIsMounted(true)
-    return () => { setIsMounted(false) }
+    return () => {
+      setIsMounted(false)
+    }
   }, [])
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -155,96 +174,112 @@ const VerticalLayout = (props) => {
     return null
   }
   const statusOptions = [
-    { value: 'active', label: 'Check In' },
-    { value: 'inactive', label: 'Check Out' }
+    { value: "active", label: "Check In" },
+    { value: "inactive", label: "Check Out" }
   ]
-  
-  return (<>
-    <Modal isOpen={true}  className='modal-dialog-centered modal-lg'>
-        <ModalHeader className='bg-transparent' ></ModalHeader>
-        <ModalBody className='px-sm-5 pt-50 pb-5'>
-          <div className='text-center mb-2'>
-            <h1 className='mb-1'>Xác Nhận Chấm Công</h1>
+  const onSubmit = (data) => {
+    console.log(data.Mode)
+    if (Object.values(data).every((field) => field.length > 0)) {
+      setShow(false)
+    } else {
+      for (const key in data) {
+        if (data[key].length === 0) {
+          setError(key, {
+            type: "manual"
+          })
+        }
+      }
+    }
+  }
+  return (
+    <>
+      <Modal isOpen={show} className="modal-dialog-centered modal-lg">
+        <ModalHeader className="bg-transparent"></ModalHeader>
+        <ModalBody className="px-sm-5 pt-50 pb-5">
+          <div className="text-center mb-2">
+            <h1 className="mb-1">Xác Nhận Chấm Công</h1>
           </div>
-          <Form >
-            <Row className='gy-1 pt-75'>
-            
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Row className="gy-1 pt-75">
               <Col md={6} xs={12}>
-                <Label className='form-label' for='lastName'>
+                <Label className="form-label" for="lastName">
                   Tên:
                 </Label>
                 <Input
-                defaultValue={getCurrentUser.name}
-                  type='email'
-                  id='lastName'
+                  defaultValue={getCurrentUser.name}
+                  type="email"
+                  id="lastName"
                   disabled
                 />
               </Col>
               <Col md={6} xs={12}>
-                 <Label className='form-label' for='lastName'>
+                <Label className="form-label" for="lastName">
                   Mã Số Nhân Viên:
                 </Label>
                 <Input
-                defaultValue={getCurrentUser.employeeNumber}
-                  type='email'
-                  id='lastName'
+                  defaultValue={getCurrentUser.employeeNumber}
+                  type="email"
+                  id="lastName"
                   disabled
                 />
               </Col>
-             
-              <Col md={6} xs={12}>
-                <Label className='form-label' for='username'>
-                  Ngày
-              
-                </Label>
-                <Input
-                  id=''
-                  placeholder='Tax-1234'
-                  defaultValue={Time}
-                value={Time}
 
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="username">
+                  Ngày
+                </Label>
+                <Input
+                  id=""
+                  placeholder="Tax-1234"
+                  defaultValue={Time}
+                  value={Time}
                   disabled
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className='form-label' for='billing-email'>
-                   Giờ Hiện Tại
+                <Label className="form-label" for="billing-email">
+                  Giờ Hiện Tại
                 </Label>
                 <Input
-                  id=''
-                  placeholder='Tax-1234'
+                  id=""
+                  placeholder="Tax-1234"
                   defaultValue={currentHour}
                   value={currentHour}
                   disabled
                 />
-              
               </Col>
               <Col md={12} xs={12}>
-                <Label className='form-label' for='status'>
+                <Label className="form-label" for="status">
                   Chọn Kiểu:
                 </Label>
-                <Select
-                  id='language'
-                  isClearable={false}
-                  className='react-select'
-                  classNamePrefix='select'
-                  options={statusOptions}
+                <Controller
+                  control={control}
+                  name={"Mode"}
                   defaultValue={statusOptions[0]}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Select
+                      options={statusOptions}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      value={statusOptions.find(
+                        (option) => option.value === value
+                      )}
+                      {...field}
+                    />
+                  )}
                 />
               </Col>
-             
-            
-              <Col xs={12} className='text-center mt-2 pt-50'>
-                <Button type='submit' className='me-1' color='primary'>
+
+              <Col xs={12} className="tePxt-center mt-2 pt-50">
+                <Button type="submit" className="me-1" color="primary">
                   Xác Nhận
                 </Button>
                 <Button
-                  type='reset'
-                  color='secondary'
+                  type="reset"
+                  color="secondary"
                   outline
                   onClick={() => {
-                    handleReset()
-                    setShow(false)
+                    handleCloseModal(false)
                   }}
                 >
                   Xóa
@@ -254,126 +289,127 @@ const VerticalLayout = (props) => {
           </Form>
         </ModalBody>
       </Modal>
-    <div
-      className={classnames(
-        `wrapper vertical-layout ${
-          navbarWrapperClasses[navbarType] || "navbar-floating"
-        } ${footerClasses[footerType] || "footer-static"}`,
-        {
-          // Modern Menu
-          "vertical-menu-modern": windowWidth >= 1200,
-          "menu-collapsed": menuCollapsed && windowWidth >= 1200,
-          "menu-expanded": !menuCollapsed && windowWidth > 1200,
-
-          // Overlay Menu
-          "vertical-overlay-menu": windowWidth < 1200,
-          "menu-hide": !menuVisibility && windowWidth < 1200,
-          "menu-open": menuVisibility && windowWidth < 1200
-        }
-      )}
-      {...(isHidden ? { "data-col": "1-column" } : {})}
-    >
-      {!isHidden ? (
-        <SidebarComponent
-          skin={skin}
-          menu={menu}
-          menuData={menuData}
-          menuCollapsed={menuCollapsed}
-          menuVisibility={menuVisibility}
-          setMenuCollapsed={setMenuCollapsed}
-          setMenuVisibility={setMenuVisibility}
-        />
-      ) : null}
-
-      <Navbar
-        expand="lg"
-        container={false}
-        light={skin !== "dark"}
-        dark={skin === "dark" || bgColorCondition}
-        color={bgColorCondition ? navbarColor : undefined}
-        className={classnames(
-          `header-navbar navbar align-items-center ${
-            navbarClasses[navbarType] || "floating-nav"
-          } navbar-shadow`
-        )}
-      >
-        <div className="navbar-container d-flex content">
-          {navbar ? (
-            navbar({ skin, setSkin, setMenuVisibility })
-          ) : (
-            <NavbarComponent
-              setMenuVisibility={setMenuVisibility}
-              skin={skin}
-              setSkin={setSkin}
-            />
-          )}
-        </div>
-      </Navbar>
-      {children}
-
-      {/* Vertical Nav Menu Overlay */}
       <div
-        className={classnames("sidenav-overlay", {
-          show: menuVisibility
-        })}
-        onClick={() => setMenuVisibility(false)}
-      ></div>
-      {/* Vertical Nav Menu Overlay */}
-
-      {themeConfig.layout.customizer === true ? (
-        <Customizer
-          skin={skin}
-          isRtl={isRtl}
-          layout={layout}
-          setSkin={setSkin}
-          setIsRtl={setIsRtl}
-          isHidden={isHidden}
-          setLayout={setLayout}
-          footerType={footerType}
-          navbarType={navbarType}
-          setIsHidden={setIsHidden}
-          themeConfig={themeConfig}
-          navbarColor={navbarColor}
-          contentWidth={contentWidth}
-          setFooterType={setFooterType}
-          setNavbarType={setNavbarType}
-          setLastLayout={setLastLayout}
-          menuCollapsed={menuCollapsed}
-          setNavbarColor={setNavbarColor}
-          setContentWidth={setContentWidth}
-          setMenuCollapsed={setMenuCollapsed}
-        />
-      ) : null}
-      <footer
         className={classnames(
-          `footer footer-light ${footerClasses[footerType] || "footer-static"}`,
+          `wrapper vertical-layout ${
+            navbarWrapperClasses[navbarType] || "navbar-floating"
+          } ${footerClasses[footerType] || "footer-static"}`,
           {
-            "d-none": footerType === "hidden"
+            // Modern Menu
+            "vertical-menu-modern": windowWidth >= 1200,
+            "menu-collapsed": menuCollapsed && windowWidth >= 1200,
+            "menu-expanded": !menuCollapsed && windowWidth > 1200,
+
+            // Overlay Menu
+            "vertical-overlay-menu": windowWidth < 1200,
+            "menu-hide": !menuVisibility && windowWidth < 1200,
+            "menu-open": menuVisibility && windowWidth < 1200
           }
         )}
+        {...(isHidden ? { "data-col": "1-column" } : {})}
       >
-        {footer ? (
-          footer
-        ) : (
-          <FooterComponent
-            footerType={footerType}
-            footerClasses={footerClasses}
+        {!isHidden ? (
+          <SidebarComponent
+            skin={skin}
+            menu={menu}
+            menuData={menuData}
+            menuCollapsed={menuCollapsed}
+            menuVisibility={menuVisibility}
+            setMenuCollapsed={setMenuCollapsed}
+            setMenuVisibility={setMenuVisibility}
           />
-        )}
-      </footer>
+        ) : null}
 
-      {themeConfig.layout.scrollTop === true ? (
-        <div className="scroll-to-top">
-          <ScrollToTop showOffset={300} className="scroll-top d-block">
-            <Button className="btn-icon" color="primary">
-              <ArrowUp size={14} />
-            </Button>
-          </ScrollToTop>
-        </div>
-      ) : null}
-    </div>
-  </>
+        <Navbar
+          expand="lg"
+          container={false}
+          light={skin !== "dark"}
+          dark={skin === "dark" || bgColorCondition}
+          color={bgColorCondition ? navbarColor : undefined}
+          className={classnames(
+            `header-navbar navbar align-items-center ${
+              navbarClasses[navbarType] || "floating-nav"
+            } navbar-shadow`
+          )}
+        >
+          <div className="navbar-container d-flex content">
+            {navbar ? (
+              navbar({ skin, setSkin, setMenuVisibility })
+            ) : (
+              <NavbarComponent
+                setMenuVisibility={setMenuVisibility}
+                skin={skin}
+                setSkin={setSkin}
+              />
+            )}
+          </div>
+        </Navbar>
+        {children}
 
+        {/* Vertical Nav Menu Overlay */}
+        <div
+          className={classnames("sidenav-overlay", {
+            show: menuVisibility
+          })}
+          onClick={() => setMenuVisibility(false)}
+        ></div>
+        {/* Vertical Nav Menu Overlay */}
+
+        {themeConfig.layout.customizer === true ? (
+          <Customizer
+            skin={skin}
+            isRtl={isRtl}
+            layout={layout}
+            setSkin={setSkin}
+            setIsRtl={setIsRtl}
+            isHidden={isHidden}
+            setLayout={setLayout}
+            footerType={footerType}
+            navbarType={navbarType}
+            setIsHidden={setIsHidden}
+            themeConfig={themeConfig}
+            navbarColor={navbarColor}
+            contentWidth={contentWidth}
+            setFooterType={setFooterType}
+            setNavbarType={setNavbarType}
+            setLastLayout={setLastLayout}
+            menuCollapsed={menuCollapsed}
+            setNavbarColor={setNavbarColor}
+            setContentWidth={setContentWidth}
+            setMenuCollapsed={setMenuCollapsed}
+          />
+        ) : null}
+        <footer
+          className={classnames(
+            `footer footer-light ${
+              footerClasses[footerType] || "footer-static"
+            }`,
+            {
+              "d-none": footerType === "hidden"
+            }
+          )}
+        >
+          {footer ? (
+            footer
+          ) : (
+            <FooterComponent
+              footerType={footerType}
+              footerClasses={footerClasses}
+            />
+          )}
+        </footer>
+
+        {themeConfig.layout.scrollTop === true ? (
+          <div className="scroll-to-top">
+            <ScrollToTop showOffset={300} className="scroll-top d-block">
+              <Button className="btn-icon" color="primary">
+                <ArrowUp size={14} />
+              </Button>
+            </ScrollToTop>
+          </div>
+        ) : null}
+      </div>
+    </>
   )
 }
 
