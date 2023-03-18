@@ -88,9 +88,8 @@ const onDeleteHandle = async (id) => {
   console.log("rs:", rs);
   if (rs?.meta?.requestStatus === "fulfilled") {
     message.success("Thành công");
-  }else{
+  } else {
     message.error("Có lỗi xảy ra");
-
   }
 };
 const statusObj = {
@@ -199,10 +198,10 @@ export const columns = [
               <span className="align-middle">Chi tiết</span>
             </DropdownItem>
             <DropdownItem
-              tag="a"
-              href="/"
+              tag={Link}
+              to={`/user/update/${row.id}`}
               className="w-100"
-              onClick={(e) => e.preventDefault()}
+              // onClick={(e) => e.preventDefault()}
             >
               <Archive size={14} className="me-50" />
               <span className="align-middle">Chỉnh sửa</span>

@@ -28,6 +28,8 @@ const DefaultRoute = "/home";
 const Home = lazy(() => import("../../views/Home"));
 const SecondPage = lazy(() => import("../../views/SecondPage"));
 const Login = lazy(() => import("../../views/Login"));
+const AddEditUser = lazy(() => import("../../views/user/handleAddEditUser"));
+
 const Register = lazy(() => import("../../views/Register"));
 const ForgotPassword = lazy(() => import("../../views/ForgotPassword"));
 const Error = lazy(() => import("../../views/Error"));
@@ -57,7 +59,10 @@ const Routes = [
     path: "/second-page",
     element: <SecondPage />,
   },
-
+  {
+    path: "/user/:handle/:id",
+    element: <AddEditUser />,
+  },
   {
     path: "/login",
     element: <Login />,
@@ -130,8 +135,8 @@ const MergeLayoutRoutes = (layout, defaultLayout) => {
       return LayoutRoutes;
     });
   }
-      return LayoutRoutes
-}
+  return LayoutRoutes;
+};
 
 const getRoutes = (layout) => {
   const defaultLayout = layout || "vertical";

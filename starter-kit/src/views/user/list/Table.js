@@ -177,15 +177,16 @@ const CustomHeader = ({
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown> */}
-
-            <Button
-              className="add-new-user"
-              color="primary"
-              onClick={toggleSidebar}
-              // onClick={onClickHandle}
-            >
-              Add New User
-            </Button>
+            <Link to="/user/add/new">
+              <Button
+                className="add-new-user"
+                color="primary"
+                onClick={toggleSidebar}
+                // onClick={onClickHandle}
+              >
+                Add New User
+              </Button>
+            </Link>
           </div>
         </Col>
       </Row>
