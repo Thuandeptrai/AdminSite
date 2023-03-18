@@ -3,11 +3,8 @@ import { Suspense } from 'react'
 import { Navigate } from 'react-router-dom'
 
 // ** Utils
-import { getUserData, getHomeRouteForLoggedInUser } from '@utils'
-import { useDispatch, useSelector } from 'react-redux'
-import Login from '../../../views/Login'
-import { handleLayout } from '../../../redux/layout'
-import BlankLayout from "../../../@core/layouts/BlankLayout"
+import { getHomeRouteForLoggedInUser } from '@utils'
+import { useSelector } from 'react-redux'
 const PublicRoute = ({ children, route }) => {
   const users = useSelector(state => state.userApp.currentUser)
  

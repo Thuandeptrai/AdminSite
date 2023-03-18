@@ -125,8 +125,7 @@ const MergeLayoutRoutes = (layout, defaultLayout) => {
       return LayoutRoutes
     })
   }
-  console.log(LayoutRoutes)
-  return LayoutRoutes
+      return LayoutRoutes
 }
 
 const getRoutes = (layout) => {

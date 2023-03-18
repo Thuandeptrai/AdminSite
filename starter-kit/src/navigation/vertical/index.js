@@ -12,5 +12,11 @@ export default [
     title: "Second Page",
     icon: <Mail size={20} />,
     navLink: "/second-page"
+  },
+  {
+    id: "123",
+    title: "Second Page",
+    icon: <Mail size={20} />,
+    navLink: "/UserView"
   }
 ]

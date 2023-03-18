@@ -19,6 +19,7 @@ import { selectThemeColors } from '@utils'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
+import { useSelector } from 'react-redux'
 
 const roleColors = {
   editor: 'light-info',
@@ -60,6 +61,7 @@ const MySwal = withReactContent(Swal)
 
 const UserInfoCard = ({ selectedUser }) => {
   // ** State
+  const getCurrentUser = useSelector(state => state.userApp.currentUser)
   const [show, setShow] = useState(false)
 
   // ** Hook
@@ -212,7 +214,7 @@ const UserInfoCard = ({ selectedUser }) => {
                 </li>
                 <li className='mb-75'>
                   <span className='fw-bolder me-25'>Chức Vụ :</span>
-                  <span className='text-capitalize'>{selectedUser.isAdmin ? "Quản Lý" : "Nhân Viên"}</span>
+                  <span className='text-capitalize'>{selectedUser.isAdmin === "True" ? "Quản Lý" : "Nhân Viên"}</span>
                 </li>
               
                 <li className='mb-75'>
@@ -240,7 +242,7 @@ const UserInfoCard = ({ selectedUser }) => {
           </div>
           <div className='d-flex justify-content-center pt-2'>
           {
-             selectedUser.isAdmin === "True" ? <>
+             getCurrentUser.isAdmin === "True" ? <>
             
             <Button color='primary' onClick={() => setShow(true)}>
               Chỉnh sửa 

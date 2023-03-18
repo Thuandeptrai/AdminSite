@@ -23,12 +23,14 @@ import {
   DropdownToggle,
   DropdownItem
 } from "reactstrap"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 // ** Default Avatar Image
 import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg"
 import { getUserForVerify } from "../../../../views/user/store"
 
 const UserDropdown = () => {
+  let getCurrentUser = ""
+   getCurrentUser = useSelector(state => state.userApp.currentUser)
   const handleDispatch =  async () => {
     localStorage.removeItem("userData")
     useDispatch(getUserForVerify())
@@ -43,8 +45,8 @@ const UserDropdown = () => {
         onClick={(e) => e.preventDefault()}
       >
         <div className="user-nav d-sm-flex d-none">
-          <span className="user-name fw-bold">John Doe</span>
-          <span className="user-status">Admin</span>
+          <span className="user-name fw-bold">{getCurrentUser?.name || ""}</span>
+          <span className="user-status">{getCurrentUser?.isAdmin === "True" ? "Admin" : "User"}</span>
         </div>
         <Avatar
           img={defaultAvatar}
