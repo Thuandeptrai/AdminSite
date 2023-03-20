@@ -1,6 +1,6 @@
 // ** Redux Imports
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import queryString from "query-string";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import queryString from "query-string"
 // ** Axios Imports
 import axios from 'axios'
 import fetchApi from '../../../utility/api'
@@ -9,28 +9,28 @@ import { getWorkDateByUserId } from '../../../utility/api/dateTime'
 
 
 export const getAllData = createAsyncThunk("appUsers/getAllData", async () => {
-  const response = await fetchApi().get("/users/getAllUser");
-  return response.data.data;
-});
+  const response = await fetchApi().get("/users/getAllUser")
+  return response.data.data
+})
 
 export const getData = createAsyncThunk("appUsers/getData", async (params) => {
-  console.log("param", params);
-  console.log("asd", queryString.stringify(params));
+  console.log("param", params)
+  console.log("asd", queryString.stringify(params))
   const response = await fetchApi().get(
     `/users/getAllUser?${queryString.stringify(params)}`,
     params
-  );
+  )
   return {
     params,
     data: response.data.data,
-    totalPages: 1,
-  };
-});
+    totalPages: 1
+  }
+})
 
 export const getUser = createAsyncThunk("appUsers/getUser", async (id) => {
-  const response = await fetchApi().get(`/users/${id}`);
-  return response.data.data;
-});
+  const response = await fetchApi().get(`/users/${id}`)
+  return response.data.data
+})
 
 // export const addUser = createAsyncThunk(
 //   "appUsers/addUser",
@@ -84,27 +84,23 @@ export const appUsersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAllData.fulfilled, (state, action) => {
-        state.allData = action.payload;
+        state.allData = action.payload
       })
       .addCase(getData.fulfilled, (state, action) => {
-        state.data = action.payload.data;
-        state.params = action.payload.params;
-        state.total = action.payload.totalPages;
-      })
-      .addCase(getWorkDay.fulfilled, (state, action) => {
-        state.workdayOfUser = action.payload.workdayOfUser
- 
+        state.data = action.payload.data
+        state.params = action.payload.params
+        state.total = action.payload.totalPages
       })
       .addCase(getUserForVerify.fulfilled, (state, action) => {
-        state.currentUser = action.payload.currentUser;
+        state.currentUser = action.payload.currentUser
       })
       .addCase(getUser.fulfilled, (state, action) => {
-        state.selectedUser = action.payload;
+        state.selectedUser = action.payload
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
-        state.data = action.payload.payload;
-      });
-  },
-});
+        state.data = action.payload.payload
+      })
+  }
+})
 
-export default appUsersSlice.reducer;
+export default appUsersSlice.reducer
