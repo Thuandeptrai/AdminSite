@@ -206,7 +206,7 @@ const VerticalLayout = (props) => {
                   Tên:
                 </Label>
                 <Input
-                  defaultValue={getCurrentUser.name}
+                  defaultValue={getCurrentUser?.name}
                   type="email"
                   id="lastName"
                   disabled
@@ -217,7 +217,7 @@ const VerticalLayout = (props) => {
                   Mã Số Nhân Viên:
                 </Label>
                 <Input
-                  defaultValue={getCurrentUser.employeeNumber}
+                  defaultValue={getCurrentUser?.employeeNumber}
                   type="email"
                   id="lastName"
                   disabled
