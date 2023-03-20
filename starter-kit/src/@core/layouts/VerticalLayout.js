@@ -193,7 +193,7 @@ const VerticalLayout = (props) => {
                 </Label>
                 <Input
                   defaultValue={getCurrentUser?.name}
-                  type="text"
+                  type="email"
                   id="lastName"
                   disabled
                 />
