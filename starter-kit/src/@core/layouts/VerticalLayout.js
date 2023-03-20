@@ -58,6 +58,7 @@ import { useNavbarColor } from "@hooks/useNavbarColor"
 // ** Styles
 import "@styles/base/core/menu/menu-types/vertical-menu.scss"
 import "@styles/base/core/menu/menu-types/vertical-overlay-menu.scss"
+import { checkInForUser, checkOutForUser } from "../../utility/api/checkDay"
 
 const VerticalLayout = (props) => {
   // ** Props
@@ -177,9 +178,17 @@ const VerticalLayout = (props) => {
     { value: "active", label: "Check In" },
     { value: "inactive", label: "Check Out" }
   ]
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data.Mode)
+    if (data.Mode.value === "active") {
+      await checkInForUser()
+    } else {
+      await checkOutForUser()
+      
+    }
+    setShow(false)
     if (Object.values(data).every((field) => field.length > 0)) {
+
       setShow(false)
     } else {
       for (const key in data) {
