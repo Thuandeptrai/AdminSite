@@ -3,9 +3,15 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 // ** Store & Actions
+<<<<<<< HEAD
 import { getUser } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 
+=======
+import { getUser, getWorkDay } from '../store'
+import { useSelector, useDispatch } from 'react-redux'
+import UserWorkDayTable from './UserWorkDayTable'
+>>>>>>> 32f69724c44992d305023ccbb11ec5137bde5213
 // ** Reactstrap Imports
 import { Row, Col, Alert } from "reactstrap";
 
@@ -15,7 +21,12 @@ import PlanCard from "./PlanCard";
 import UserInfoCard from "./UserInfoCard";
 
 // ** Styles
+<<<<<<< HEAD
 import "@styles/react/apps/app-users.scss";
+=======
+import '@styles/react/apps/app-users.scss'
+import InvoiceList from './InvoiceList'
+>>>>>>> 32f69724c44992d305023ccbb11ec5137bde5213
 
 const UserView = () => {
   // ** Store Vars
@@ -24,8 +35,9 @@ const store = useSelector(state => state.userApp.selectedUser)
   const dispatch = useDispatch();
 
   // ** Hooks
-  const { id } = useParams();
-  console.log(id);
+  const { id } = useParams()
+  console.log(id)
+
   // ** Get suer on mount
   useEffect(() => {
     dispatch(getUser(id));
@@ -37,14 +49,16 @@ const store = useSelector(state => state.userApp.selectedUser)
     if (active !== tab) {
       setActive(tab);
     }
-  };
-
+  }
   return store !== null && store !== undefined ? (
     <div className="app-user-view">
       <Row>
         <Col xl="4" lg="5" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
           <UserInfoCard selectedUser={store} />
         </Col>
+        <Col xl='8' lg='10' xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
+          <UserWorkDayTable />
+        </Col>  
       </Row>
     </div>
   ) : (

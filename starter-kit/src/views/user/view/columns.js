@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 
 // ** Custom Components
 import Avatar from '@components/avatar'
-
 // ** Reactstrap Imports
 import { UncontrolledTooltip } from 'reactstrap'
 
@@ -21,6 +20,7 @@ import {
   CheckCircle,
   ArrowDownCircle
 } from 'react-feather'
+import moment from 'moment'
 
 // ** Vars
 const invoiceStatusObj = {
@@ -35,72 +35,36 @@ const invoiceStatusObj = {
 // ** Table columns
 export const columns = [
   {
-    name: '#',
+    name: 'Ngày',
     sortable: true,
-    sortField: 'id',
+    sortField: 'date',
     minWidth: '107px',
-    selector: row => row.id,
-    cell: row => <Link className='fw-bolder' to={`/apps/invoice/preview/${row.id}`}>{`#${row.id}`}</Link>
+    selector: row => moment.unix(row.DateIn).format("DD/MM/yy")
   },
   {
-    name: <TrendingUp size={14} />,
-    minWidth: '102px',
+    name: 'Giờ Vào',
     sortable: true,
-    sortField: 'invoiceStatus',
-    selector: row => row.invoiceStatus,
-    cell: row => {
-      const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
-        Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : Edit
-      return (
-        <Fragment>
-          <Avatar color={color} icon={<Icon size={14} />} id={`av-tooltip-${row.id}`} />
-          <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
-            <span className='fw-bold'>{row.invoiceStatus}</span>
-            <br />
-            <span className='fw-bold'>Balance:</span> {row.balance}
-            <br />
-            <span className='fw-bold'>Due Date:</span> {row.dueDate}
-          </UncontrolledTooltip>
-        </Fragment>
-      )
-    }
+    sortField: 'dateIn',
+    minWidth: '107px',
+    selector: row => row.userDateIn.map((date, i) => <span key={i}>{`${moment.unix(date).format("HH:mm") }, `}</span>)
+  },
+  {
+    name: 'Giờ  Ra',
+    sortable: true,
+    sortField: 'DateOut',
+    minWidth: '107px',
+    selector: row => row.userDateOut.map((date, i) => <span key={i}>{`${moment.unix(date).format("HH:mm") }, `}</span>)
+
   },
 
   {
-    name: 'Total Paid',
+    name: 'Tổng Số Giờ',
     sortable: true,
     minWidth: '150px',
     sortField: 'total',
-    selector: row => row.total,
-    cell: row => <span>${row.total || 0}</span>
-  },
-  {
-    minWidth: '200px',
-    name: 'Issued Date',
-    cell: row => row.dueDate
-  },
-  {
-    name: 'Action',
-    minWidth: '110px',
-    cell: row => (
-      <div className='column-action d-flex align-items-center'>
-        <Send className='text-body cursor-pointer' size={17} id={`send-tooltip-${row.id}`} />
-        <UncontrolledTooltip placement='top' target={`send-tooltip-${row.id}`}>
-          Send Mail
-        </UncontrolledTooltip>
-
-        <Link className='text-body' to={`/apps/invoice/preview/${row.id}`} id={`pw-tooltip-${row.id}`}>
-          <Eye size={17} className='mx-1' />
-        </Link>
-        <UncontrolledTooltip placement='top' target={`pw-tooltip-${row.id}`}>
-          Preview Invoice
-        </UncontrolledTooltip>
-
-        <Download className='text-body cursor-pointer' size={17} id={`download-tooltip-${row.id}`} />
-        <UncontrolledTooltip placement='top' target={`download-tooltip-${row.id}`}>
-          Download Invoice
-        </UncontrolledTooltip>
-      </div>
-    )
+    selector: row => row.workHour,
+    cell: row => <span>{row.workHour || 0}</span>
   }
+  
+ 
 ]

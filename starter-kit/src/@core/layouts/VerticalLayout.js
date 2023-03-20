@@ -55,9 +55,15 @@ import { useFooterType } from "@hooks/useFooterType";
 import { useNavbarColor } from "@hooks/useNavbarColor";
 
 // ** Styles
+<<<<<<< HEAD
 import "@styles/base/core/menu/menu-types/vertical-menu.scss";
 import "@styles/base/core/menu/menu-types/vertical-overlay-menu.scss";
 import { use } from "i18next";
+=======
+import "@styles/base/core/menu/menu-types/vertical-menu.scss"
+import "@styles/base/core/menu/menu-types/vertical-overlay-menu.scss"
+import { checkInForUser, checkOutForUser } from "../../utility/api/checkDay"
+>>>>>>> 32f69724c44992d305023ccbb11ec5137bde5213
 
 const VerticalLayout = (props) => {
   // ** Props
@@ -72,6 +78,7 @@ const VerticalLayout = (props) => {
   const { layout, setLayout, setLastLayout } = useLayout();
 
   // ** States
+<<<<<<< HEAD
   const [isMounted, setIsMounted] = useState(false);
   const [menuVisibility, setMenuVisibility] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -80,6 +87,16 @@ const VerticalLayout = (props) => {
   const [currentHour, setCurrentHour] = useState(moment().format("hh:mm:ss"));
   const [show, setShow] = useState(true);
   const [isOpen, setIsOpen] = useState(true);
+=======
+  const [isMounted, setIsMounted] = useState(false)
+  const [menuVisibility, setMenuVisibility] = useState(false)
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [Time, setTime] = useState(moment().format("DD/MM/YY"))
+  const [currentHour, setCurrentHour] = useState(moment().format("HH:mm:ss"))
+  const [show, setShow] = useState(true)
+
+>>>>>>> 32f69724c44992d305023ccbb11ec5137bde5213
   useEffect(() => {
     setIsModalOpen(true);
   }, []);
@@ -176,9 +193,30 @@ const VerticalLayout = (props) => {
   }
   const statusOptions = [
     { value: "active", label: "Check In" },
-    { value: "inactive", label: "Check Out" },
-  ];
+    { value: "inactive", label: "Check Out" }
+  ]
+  const onSubmit = async (data) => {
+    console.log(data.Mode)
+    if (data.Mode.value === "active") {
+      await checkInForUser()
+    } else {
+      await checkOutForUser()
+      
+    }
+    setShow(false)
+    if (Object.values(data).every((field) => field.length > 0)) {
 
+      setShow(false)
+    } else {
+      for (const key in data) {
+        if (data[key].length === 0) {
+          setError(key, {
+            type: "manual"
+          })
+        }
+      }
+    }
+  }
   return (
     <>
       <Modal isOpen={isOpen} className="modal-dialog-centered modal-lg">
