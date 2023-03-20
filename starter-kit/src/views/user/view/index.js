@@ -19,7 +19,7 @@ import '@styles/react/apps/app-users.scss'
 
 const UserView = () => {
   // ** Store Vars
-  const store = useSelector(state => state.userApp.selectedUser)
+const store = useSelector(state => state.userApp.selectedUser)
 
   const dispatch = useDispatch()
 
@@ -31,7 +31,6 @@ const UserView = () => {
     dispatch(getUser(id))
     
   }, [dispatch])
-  console.log(store)
   const [active, setActive] = useState('1')
 
   const toggleTab = tab => {
