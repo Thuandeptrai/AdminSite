@@ -1,38 +1,35 @@
 import { Table } from "antd";
 import React from "react";
-const ResultTable = () => {
-  const dataSource = [
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "2",
-      name: "John",
-      age: 42,
-      address: "10 Downing Street",
-    },
-  ];
-  const columns = [
+const ResultTable = ({ data }) => {
+  console.log("data:", data);
 
+  const columns = [
     {
-      title: "STT",
-      dataIndex: "name",
-      key: "name",
+      title: "Thời gian bắt đầu làm việc",
+      dataIndex: "dateIn",
+      key: "dateIn",
     },
     {
-      title: "Mã số nhân viên",
-      dataIndex: "age",
-      key: "age",
+      title: "Thời gian kết thúc làm việc",
+      dataIndex: "dateOut",
+      key: "dateOut",
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "Thời gian cho phép đi trễ",
+      dataIndex: "lateDate",
+      key: "lateDate",
+    },
+    {
+      title: "Thời gian bắt đầu nghĩ trưa",
+      dataIndex: "leisureTimeStart",
+      key: "leisureTimeStart",
+    },
+    {
+      title: "Thời gian kết thúc nghĩ trưa",
+      dataIndex: "leisureTimeEnd",
+      key: "leisureTimeEnd",
     },
   ];
-  return <Table dataSource={dataSource} columns={columns} />;
+  return <Table dataSource={data} columns={columns} />;
 };
 export default ResultTable;

@@ -1,18 +1,21 @@
-import { Col, Row } from "antd";
-import React from "react";
+import { Button, Modal, Form, Col, Row } from "antd";
+import { useState, useEffect } from "react";
+import { Input } from "reactstrap";
 import ResultTable from "./ResultTable/index";
+import { getDateToCheck } from "../../utility/api/dateToCheck";
+
 const TimeSheet = () => {
+  const [date, setDate] = useState([]);
+  const getDate = async () => {
+    const rs = await getDateToCheck();
+    setDate(rs?.data?.data);
+  };
+  useEffect(() => {
+    getDate();
+  }, []);
   return (
     <>
-      <Row>
-        <Col span="24"></Col>
-        <Col span="24">
-            <h1 style={{textAlign:"center"}}>Bảng chấm công ngày 20/03/2023</h1>
-        </Col>
-        <Col span="24">
-          <ResultTable />
-        </Col>
-      </Row>
+      <ResultTable data={date} />
     </>
   );
 };

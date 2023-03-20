@@ -209,6 +209,8 @@ const UsersList = () => {
     value: "",
     label: "Tất cả",
   });
+  console.log("currentDepartment:", currentDepartment);
+
   const [currentRole, setCurrentRole] = useState({
     value: "",
     label: "Tất cả",
@@ -301,25 +303,25 @@ const UsersList = () => {
   }, [searchTerm, currentRole, currentDepartment]);
   // ** Function in get data on search query change
   const handleFilter = (val) => {
-    setSearchTerm(val);
-    console.log(currentStatus);
-    dispatch(
-      getData({
-        //sort,
-        q: val,
-        sortColumn,
-        page: currentPage,
-        perPage: rowsPerPage,
-        role: currentRole.value,
-        status: currentStatus.value,
-        currentPlan: currentPlan.value,
-        // status: currentStatus.value,
-        // page: currentPage,
-        // perPage: rowsPerPage,
-        // role: currentRole.value,
-        // status: currentStatus.value
-      })
-    );
+    // setSearchTerm(val);
+    // console.log(currentStatus);
+    // dispatch(
+    //   getData({
+    //     //sort,
+    //     q: val,
+    //     sortColumn,
+    //     page: currentPage,
+    //     perPage: rowsPerPage,
+    //     role: currentRole.value,
+    //     status: currentStatus.value,
+    //     currentPlan: currentPlan.value,
+    //     // status: currentStatus.value,
+    //     // page: currentPage,
+    //     // perPage: rowsPerPage,
+    //     // role: currentRole.value,
+    //     // status: currentStatus.value
+    //   })
+    // );
   };
 
   // ** Custom Pagination

@@ -39,6 +39,9 @@ const AddEditUser = () => {
     });
   };
   const onFinish = async (value) => {
+    console.log("value:", value);
+    // return;
+
     if (id === "new") {
       const rs = await dispatch(addUser(value));
       if (rs?.payload) {
