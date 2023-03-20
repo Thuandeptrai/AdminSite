@@ -49,7 +49,7 @@ export const columns = [
     selector: row => row.userDateIn.map((date, i) => <span key={i}>{`${moment.unix(date).format("HH:mm") }, `}</span>)
   },
   {
-    name: 'Giờ Giờ Ra',
+    name: 'Giờ  Ra',
     sortable: true,
     sortField: 'DateOut',
     minWidth: '107px',
@@ -62,8 +62,8 @@ export const columns = [
     sortable: true,
     minWidth: '150px',
     sortField: 'total',
-    selector: row => row.total,
-    cell: row => <span>${row.total || 0}</span>
+    selector: row => row.workHour,
+    cell: row => <span>{row.workHour || 0}</span>
   }
   
  

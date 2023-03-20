@@ -215,7 +215,6 @@ const UserWorkDayTable = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const { id } = useParams()
-  console.log(id)
   const store = useSelector((state) => state.userApp.data)
   
   // ** States
@@ -226,6 +225,7 @@ const UserWorkDayTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [userWorkDay, setUserWorkDay] = useState([])
+  
   const [currentRole, setCurrentRole] = useState({
     value: "",
     label: "Select Role"
@@ -242,12 +242,14 @@ const UserWorkDayTable = () => {
   useEffect(() => {
      const getUser = async () => {
       const response = await getWorkDateByUserId(id)
-      console.log(response.data.data)
-      setUserWorkDay(response.data.data)
-    }
+      console.log(response.data.HourWork[0])
+       const arr3 = response.data.data.map((item, i) => Object.assign({}, item, response.data.HourWork[i]))
+      setUserWorkDay(arr3)
+      }
     getUser()
   }
   , {id})
+  console.log(userWorkDay)
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
   // ** Get data on mount
