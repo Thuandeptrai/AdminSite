@@ -1,6 +1,6 @@
 // ** Redux Imports
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import queryString from 'query-string'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import queryString from "query-string";
 // ** Axios Imports
 import axios from "axios";
 import fetchApi from "../../../utility/api";
@@ -11,10 +11,13 @@ export const getAllData = createAsyncThunk("appUsers/getAllData", async () => {
   return response.data.data;
 });
 
-export const getData = createAsyncThunk('appUsers/getData', async params => {
-  console.log("param", params)
-  console.log("asd", queryString.stringify(params))
-  const response = await fetchApi().get(`/users/getAllUser?${queryString.stringify(params)}`, params)
+export const getData = createAsyncThunk("appUsers/getData", async (params) => {
+  console.log("param", params);
+  console.log("asd", queryString.stringify(params));
+  const response = await fetchApi().get(
+    `/users/getAllUser?${queryString.stringify(params)}`,
+    params
+  );
   return {
     params,
     data: response.data.data,

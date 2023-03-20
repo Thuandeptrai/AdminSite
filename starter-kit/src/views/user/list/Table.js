@@ -90,6 +90,7 @@ const CustomHeader = ({
 
     return result;
   }
+  // Invoke when user click to request another page.
 
   // ** Downloads CSV
   function downloadCSV(array) {
@@ -132,7 +133,7 @@ const CustomHeader = ({
           xl="6"
           className="d-flex align-items-sm-center justify-content-xl-end justify-content-start flex-xl-nowrap flex-wrap flex-sm-row flex-column pe-xl-1 p-0 mt-xl-0 mt-1"
         >
-          {/* <div className="d-flex align-items-center mb-sm-0 mb-1 me-1">
+          <div className="d-flex align-items-center mb-sm-0 mb-1 me-1">
             <label className="mb-0" htmlFor="search-invoice">
               Search:
             </label>
@@ -143,7 +144,7 @@ const CustomHeader = ({
               value={searchTerm}
               onChange={(e) => handleFilter(e.target.value)}
             />
-          </div> */}
+          </div>
 
           <div className="d-flex align-items-center table-header-actions">
             {/* <UncontrolledDropdown className="me-1">
@@ -204,13 +205,18 @@ const UsersList = () => {
   const [sortColumn, setSortColumn] = useState("id");
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [currentDepartment, setCurrentDepartment] = useState({
+    value: "",
+    label: "Tất cả",
+  });
   const [currentRole, setCurrentRole] = useState({
     value: "",
-    label: "Select Role",
+    label: "Tất cả",
   });
+
   const [currentPlan, setCurrentPlan] = useState({
     value: "",
-    label: "Select Plan",
+    label: "Tất cả",
   });
   const [currentStatus, setCurrentStatus] = useState({
     value: "",
@@ -229,12 +235,13 @@ const UsersList = () => {
   // ** User filter options
   const roleOptions = [
     { value: "", label: "Tất cả" },
-    { value: "admin", label: "Admin" },
-    { value: "member", label: "Nhân viên" },
+    { value: "True", label: "Admin" },
+    { value: "False", label: "Nhân viên" },
     // { value: 'editor', label: 'Editor' },
     // { value: 'maintainer', label: 'Maintainer' },
     // { value: 'subscriber', label: 'Subscriber' }
   ];
+
   const departmentOptions = [
     {
       value: "",
@@ -269,7 +276,6 @@ const UsersList = () => {
     dispatch(getData());
     setCurrentPage(page.selected + 1);
   };
-
   // ** Function in get data on rows per page
   const handlePerPage = (e) => {
     const value = parseInt(e.currentTarget.value);
@@ -293,9 +299,10 @@ const UsersList = () => {
         q: searchTerm,
         status: currentStatus.value,
         role: currentRole.value,
+        department: currentDepartment.value,
       })
     );
-  }, [currentStatus, searchTerm, currentPlan]);
+  }, [currentStatus, searchTerm, currentRole, currentDepartment]);
   // ** Function in get data on search query change
   const handleFilter = (val) => {
     setSearchTerm(val);
@@ -310,7 +317,7 @@ const UsersList = () => {
         role: currentRole.value,
         status: currentStatus.value,
         currentPlan: currentPlan.value,
-        status: currentStatus.value,
+        // status: currentStatus.value,
         // page: currentPage,
         // perPage: rowsPerPage,
         // role: currentRole.value,
@@ -321,7 +328,7 @@ const UsersList = () => {
 
   // ** Custom Pagination
   const CustomPagination = () => {
-    const count = Number(Math.ceil(store.total / rowsPerPage));
+    const count = Number(Math.ceil(store.length / rowsPerPage));
 
     return (
       <ReactPaginate
@@ -386,26 +393,26 @@ const UsersList = () => {
   return (
     <Fragment>
       <Card>
-        {/* <CardHeader>
+        <CardHeader>
           <CardTitle tag="h4">Tìm kiếm</CardTitle>
-        </CardHeader> */}
+        </CardHeader>
         <CardBody>
           <Row>
-            <Col md="4">
+            {/* <Col md="4">
               <Label for="">Họ và tên</Label>
               <Input />
-            </Col>
-            <Col md="4">
+            </Col> */}
+            {/* <Col md="4">
               <Label for="">Phòng ban</Label>
               <Select
-                value={currentDepartment}
+                // value={currentDepartment}
                 options={departmentOptions}
                 className="react-select"
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />
-            </Col>
-            <Col md="4">
+            </Col> */}
+            {/* <Col md="4">
               <Label for="role-select">Chức vụ</Label>
               <Select
                 isClearable={false}
@@ -419,22 +426,38 @@ const UsersList = () => {
                   dispatch(getData({}));
                 }}
               />
-            </Col>
-            {/* <Col className="my-md-0 my-1" md="4">
-              <Label for="plan-select">Plan</Label>
+            </Col> */}
+            <Col className="my-md-0 my-1" md="4">
+              <Label for="plan-select">Phòng ban</Label>
               <Select
                 theme={selectThemeColors}
                 isClearable={false}
                 className="react-select"
                 classNamePrefix="select"
-                options={planOptions}
-                value={currentPlan}
+                // options={planOptions}
+                options={departmentOptions}
+                value={currentDepartment}
                 onChange={(data) => {
-                  setCurrentPlan(data);
+                  setCurrentDepartment(data);
                   dispatch(getData({}));
                 }}
               />
-            </Col> */}
+            </Col>
+            <Col md="4">
+              <Label for="status-select">Chức vụ</Label>
+              <Select
+                theme={selectThemeColors}
+                isClearable={false}
+                className="react-select"
+                classNamePrefix="select"
+                options={roleOptions}
+                value={currentRole}
+                onChange={(data) => {
+                  setCurrentRole(data);
+                  dispatch(getData({}));
+                }}
+              />
+            </Col>
             {/* <Col md="4">
               <Label for="status-select">Status</Label>
               <Select
@@ -451,14 +474,14 @@ const UsersList = () => {
               />
             </Col> */}
           </Row>
-          <Row style={{ marginTop: "1rem" }}>
+          {/* <Row style={{ marginTop: "1rem" }}>
             <Col md="4">
               <Button className="add-new-user btn btn-primary">
                 {" "}
                 Tìm kiếm
               </Button>
             </Col>
-          </Row>
+          </Row> */}
         </CardBody>
       </Card>
 
