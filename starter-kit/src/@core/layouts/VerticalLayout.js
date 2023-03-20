@@ -1,20 +1,20 @@
 // ** React Imports
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 
 // ** Store & Actions
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux"
 import {
   handleMenuCollapsed,
   handleContentWidth,
-  handleMenuHidden,
-} from "@store/layout";
+  handleMenuHidden
+} from "@store/layout"
 
 // ** Third Party Components
-import Select from "react-select";
+import Select from "react-select"
 
-import classnames from "classnames";
-import { ArrowUp, Check, Briefcase, X } from "react-feather";
+import classnames from "classnames"
+import { ArrowUp, Check, Briefcase, X } from "react-feather"
 
 // ** Reactstrap Imports
 import {
@@ -30,64 +30,49 @@ import {
   Input,
   Label,
   ModalBody,
-  ModalHeader,
-} from "reactstrap";
+  ModalHeader
+} from "reactstrap"
 
 // ** Configs
-import themeConfig from "@configs/themeConfig";
+import themeConfig from "@configs/themeConfig"
 
-import moment from "moment";
+import moment from "moment"
 // ** Custom Components
 
-import Customizer from "@components/customizer";
-import ScrollToTop from "@components/scrolltop";
-import FooterComponent from "./components/footer";
-import NavbarComponent from "./components/navbar";
-import SidebarComponent from "./components/menu/vertical-menu";
+import Customizer from "@components/customizer"
+import ScrollToTop from "@components/scrolltop"
+import FooterComponent from "./components/footer"
+import NavbarComponent from "./components/navbar"
+import SidebarComponent from "./components/menu/vertical-menu"
+import { useForm, Controller } from "react-hook-form"
 
 // ** Custom Hooks
-import { useRTL } from "@hooks/useRTL";
-import { useSkin } from "@hooks/useSkin";
+import { useRTL } from "@hooks/useRTL"
+import { useSkin } from "@hooks/useSkin"
 
-import { useLayout } from "@hooks/useLayout";
-import { useNavbarType } from "@hooks/useNavbarType";
-import { useFooterType } from "@hooks/useFooterType";
-import { useNavbarColor } from "@hooks/useNavbarColor";
+import { useLayout } from "@hooks/useLayout"
+import { useNavbarType } from "@hooks/useNavbarType"
+import { useFooterType } from "@hooks/useFooterType"
+import { useNavbarColor } from "@hooks/useNavbarColor"
 
 // ** Styles
-<<<<<<< HEAD
-import "@styles/base/core/menu/menu-types/vertical-menu.scss";
-import "@styles/base/core/menu/menu-types/vertical-overlay-menu.scss";
-import { use } from "i18next";
-=======
 import "@styles/base/core/menu/menu-types/vertical-menu.scss"
 import "@styles/base/core/menu/menu-types/vertical-overlay-menu.scss"
 import { checkInForUser, checkOutForUser } from "../../utility/api/checkDay"
->>>>>>> 32f69724c44992d305023ccbb11ec5137bde5213
 
 const VerticalLayout = (props) => {
   // ** Props
-  const { menu, navbar, footer, children, menuData } = props;
-  const getCurrentUser = useSelector((state) => state.userApp.currentUser);
+  const { menu, navbar, footer, children, menuData } = props
+  const getCurrentUser = useSelector((state) => state.userApp.currentUser)
   // ** Hooks
-  const [isRtl, setIsRtl] = useRTL();
-  const { skin, setSkin } = useSkin();
-  const { navbarType, setNavbarType } = useNavbarType();
-  const { footerType, setFooterType } = useFooterType();
-  const { navbarColor, setNavbarColor } = useNavbarColor();
-  const { layout, setLayout, setLastLayout } = useLayout();
+  const [isRtl, setIsRtl] = useRTL()
+  const { skin, setSkin } = useSkin()
+  const { navbarType, setNavbarType } = useNavbarType()
+  const { footerType, setFooterType } = useFooterType()
+  const { navbarColor, setNavbarColor } = useNavbarColor()
+  const { layout, setLayout, setLastLayout } = useLayout()
 
   // ** States
-<<<<<<< HEAD
-  const [isMounted, setIsMounted] = useState(false);
-  const [menuVisibility, setMenuVisibility] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [Time, setTime] = useState(moment().format("DD/MM/YY"));
-  const [currentHour, setCurrentHour] = useState(moment().format("hh:mm:ss"));
-  const [show, setShow] = useState(true);
-  const [isOpen, setIsOpen] = useState(true);
-=======
   const [isMounted, setIsMounted] = useState(false)
   const [menuVisibility, setMenuVisibility] = useState(false)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -96,100 +81,98 @@ const VerticalLayout = (props) => {
   const [currentHour, setCurrentHour] = useState(moment().format("HH:mm:ss"))
   const [show, setShow] = useState(true)
 
->>>>>>> 32f69724c44992d305023ccbb11ec5137bde5213
   useEffect(() => {
-    setIsModalOpen(true);
-  }, []);
+    setIsModalOpen(true)
+  }, [])
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-  const onXacNhanHandle = (e) => {
-    e.preventDefault();
-    setIsOpen(false);
-  };
+    setShow(false)
+  }
   // ** Vars
-  const dispatch = useDispatch();
-  const layoutStore = useSelector((state) => state.layout);
+  const dispatch = useDispatch()
+  const layoutStore = useSelector((state) => state.layout)
 
   // ** Update Window Width
   const handleWindowWidth = () => {
-    setWindowWidth(window.innerWidth);
-  };
+    setWindowWidth(window.innerWidth)
+  }
+  const { control, field, setError, handleSubmit } = useForm({
+    defaultValues: {}
+  })
 
   // ** Vars
-  const location = useLocation();
-  const isHidden = layoutStore.menuHidden;
-  const contentWidth = layoutStore.contentWidth;
-  const menuCollapsed = layoutStore.menuCollapsed;
+  const location = useLocation()
+  const isHidden = layoutStore.menuHidden
+  const contentWidth = layoutStore.contentWidth
+  const menuCollapsed = layoutStore.menuCollapsed
 
   // ** Toggles Menu Collapsed
-  const setMenuCollapsed = (val) => dispatch(handleMenuCollapsed(val));
+  const setMenuCollapsed = (val) => dispatch(handleMenuCollapsed(val))
 
   // ** Handles Content Width
-  const setContentWidth = (val) => dispatch(handleContentWidth(val));
+  const setContentWidth = (val) => dispatch(handleContentWidth(val))
 
   // ** Handles Content Width
-  const setIsHidden = (val) => dispatch(handleMenuHidden(val));
+  const setIsHidden = (val) => dispatch(handleMenuHidden(val))
 
   //** This function will detect the Route Change and will hide the menu on menu item click
   useEffect(() => {
     if (menuVisibility && windowWidth < 1200) {
-      setMenuVisibility(false);
+      setMenuVisibility(false)
     }
-  }, [location]);
+  }, [location])
 
   //** Sets Window Size & Layout Props
   useEffect(() => {
     if (window !== undefined) {
-      window.addEventListener("resize", handleWindowWidth);
+      window.addEventListener("resize", handleWindowWidth)
     }
-  }, [windowWidth]);
+  }, [windowWidth])
 
   //** ComponentDidMount
   useEffect(() => {
-    setIsMounted(true);
+    setIsMounted(true)
     return () => {
-      setIsMounted(false);
-    };
-  }, []);
+      setIsMounted(false)
+    }
+  }, [])
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setTime(moment().format("DD/MM/YY"));
-      setCurrentHour(moment().format("hh:mm:ss"));
-    }, 1000);
+      setTime(moment().format("DD/MM/YY"))
+      setCurrentHour(moment().format("hh:mm:ss"))
+    }, 1000)
 
     return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+      clearInterval(intervalId)
+    }
+  }, [])
   // ** Vars
   const footerClasses = {
     static: "footer-static",
     sticky: "footer-fixed",
-    hidden: "footer-hidden",
-  };
+    hidden: "footer-hidden"
+  }
 
   const navbarWrapperClasses = {
     floating: "navbar-floating",
     sticky: "navbar-sticky",
     static: "navbar-static",
-    hidden: "navbar-hidden",
-  };
+    hidden: "navbar-hidden"
+  }
 
   const navbarClasses = {
     floating:
       contentWidth === "boxed" ? "floating-nav container-xxl" : "floating-nav",
     sticky: "fixed-top",
     static: "navbar-static-top",
-    hidden: "d-none",
-  };
+    hidden: "d-none"
+  }
 
   const bgColorCondition =
-    navbarColor !== "" && navbarColor !== "light" && navbarColor !== "white";
+    navbarColor !== "" && navbarColor !== "light" && navbarColor !== "white"
 
   if (!isMounted) {
-    return null;
+    return null
   }
   const statusOptions = [
     { value: "active", label: "Check In" },
@@ -219,11 +202,13 @@ const VerticalLayout = (props) => {
   }
   return (
     <>
-      <Modal isOpen={isOpen} className="modal-dialog-centered modal-lg">
+      <Modal isOpen={show} className="modal-dialog-centered modal-lg">
         <ModalHeader className="bg-transparent"></ModalHeader>
         <ModalBody className="px-sm-5 pt-50 pb-5">
-          <h1 className="mb-1">Xác Nhận Chấm Công</h1>
-          <Form>
+          <div className="text-center mb-2">
+            <h1 className="mb-1">Xác Nhận Chấm Công</h1>
+          </div>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className="gy-1 pt-75">
               <Col md={6} xs={12}>
                 <Label className="form-label" for="lastName">
@@ -276,36 +261,38 @@ const VerticalLayout = (props) => {
                 <Label className="form-label" for="status">
                   Chọn Kiểu:
                 </Label>
-                <Select
-                  id="language"
-                  isClearable={false}
-                  className="react-select"
-                  classNamePrefix="select"
-                  options={statusOptions}
+                <Controller
+                  control={control}
+                  name={"Mode"}
                   defaultValue={statusOptions[0]}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Select
+                      options={statusOptions}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      value={statusOptions.find(
+                        (option) => option.value === value
+                      )}
+                      {...field}
+                    />
+                  )}
                 />
               </Col>
 
-              <Col xs={12} className="text-center mt-2 pt-50">
-                <Button
-                  type="submit"
-                  className="me-1"
-                  color="primary"
-                  onClick={onXacNhanHandle}
-                >
+              <Col xs={12} className="tePxt-center mt-2 pt-50">
+                <Button type="submit" className="me-1" color="primary">
                   Xác Nhận
                 </Button>
-                {/* <Button
+                <Button
                   type="reset"
                   color="secondary"
                   outline
                   onClick={() => {
-                    handleReset();
-                    setShow(false);
+                    handleCloseModal(false)
                   }}
                 >
                   Xóa
-                </Button> */}
+                </Button>
               </Col>
             </Row>
           </Form>
@@ -325,7 +312,7 @@ const VerticalLayout = (props) => {
             // Overlay Menu
             "vertical-overlay-menu": windowWidth < 1200,
             "menu-hide": !menuVisibility && windowWidth < 1200,
-            "menu-open": menuVisibility && windowWidth < 1200,
+            "menu-open": menuVisibility && windowWidth < 1200
           }
         )}
         {...(isHidden ? { "data-col": "1-column" } : {})}
@@ -371,7 +358,7 @@ const VerticalLayout = (props) => {
         {/* Vertical Nav Menu Overlay */}
         <div
           className={classnames("sidenav-overlay", {
-            show: menuVisibility,
+            show: menuVisibility
           })}
           onClick={() => setMenuVisibility(false)}
         ></div>
@@ -407,7 +394,7 @@ const VerticalLayout = (props) => {
               footerClasses[footerType] || "footer-static"
             }`,
             {
-              "d-none": footerType === "hidden",
+              "d-none": footerType === "hidden"
             }
           )}
         >
@@ -432,7 +419,7 @@ const VerticalLayout = (props) => {
         ) : null}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default VerticalLayout;
+export default VerticalLayout

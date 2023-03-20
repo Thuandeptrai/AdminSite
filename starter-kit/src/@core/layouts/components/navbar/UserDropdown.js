@@ -1,8 +1,7 @@
 // ** React Imports
-import { Link } from "react-router-dom";
-import jwt_decode from "jwt-decode";
+import { Link } from "react-router-dom"
 // ** Custom Components
-import Avatar from "@components/avatar";
+import Avatar from "@components/avatar"
 
 // ** Third Party Components
 import {
@@ -13,8 +12,8 @@ import {
   Settings,
   CreditCard,
   HelpCircle,
-  Power,
-} from "react-feather";
+  Power
+} from "react-feather"
 
 // ** Reactstrap Imports
 import {
@@ -25,9 +24,9 @@ import {
 } from "reactstrap"
 import { useDispatch, useSelector } from "react-redux"
 // ** Default Avatar Image
-import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg";
-import { getUserForVerify } from "../../../../views/user/store";
-import { useEffect } from "react";
+import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg"
+import { getUserForVerify } from "../../../../views/user/store"
+import { useEffect } from "react"
 
 const UserDropdown = () => {
   let getCurrentUser = ""
@@ -98,7 +97,7 @@ const UserDropdown = () => {
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>
-  );
-};
+  )
+}
 
-export default UserDropdown;
+export default UserDropdown

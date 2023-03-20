@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, Fragment } from "react";
+import { useState, Fragment } from "react"
 
 // ** Reactstrap Imports
 import {
@@ -14,68 +14,68 @@ import {
   Input,
   Label,
   ModalBody,
-  ModalHeader,
-} from "reactstrap";
+  ModalHeader
+} from "reactstrap"
 
 // ** Third Party Components
-import Swal from "sweetalert2";
-import Select from "react-select";
-import { Check, Briefcase, X } from "react-feather";
-import { useForm, Controller } from "react-hook-form";
-import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2"
+import Select from "react-select"
+import { Check, Briefcase, X } from "react-feather"
+import { useForm, Controller } from "react-hook-form"
+import withReactContent from "sweetalert2-react-content"
 
 // ** Custom Components
-import Avatar from "@components/avatar";
+import Avatar from "@components/avatar"
 
 // ** Utils
-import { selectThemeColors } from "@utils";
+import { selectThemeColors } from "@utils"
 
 // ** Styles
-import "@styles/react/libs/react-select/_react-select.scss";
-import { useSelector } from "react-redux";
+import "@styles/react/libs/react-select/_react-select.scss"
+import { useSelector } from "react-redux"
 
 const roleColors = {
   editor: "light-info",
   admin: "light-danger",
   author: "light-warning",
   maintainer: "light-success",
-  subscriber: "light-primary",
-};
+  subscriber: "light-primary"
+}
 
 const statusColors = {
   active: "light-success",
   pending: "light-warning",
-  inactive: "light-secondary",
-};
+  inactive: "light-secondary"
+}
 
 const statusOptions = [
   { value: "active", label: "Active" },
   { value: "inactive", label: "Inactive" },
-  { value: "suspended", label: "Suspended" },
-];
+  { value: "suspended", label: "Suspended" }
+]
 
 const countryOptions = [
   { value: "uk", label: "UK" },
   { value: "usa", label: "USA" },
   { value: "france", label: "France" },
   { value: "russia", label: "Russia" },
-  { value: "canada", label: "Canada" },
-];
+  { value: "canada", label: "Canada" }
+]
 
 const languageOptions = [
   { value: "english", label: "English" },
   { value: "spanish", label: "Spanish" },
   { value: "french", label: "French" },
   { value: "german", label: "German" },
-  { value: "dutch", label: "Dutch" },
-];
+  { value: "dutch", label: "Dutch" }
+]
 
-const MySwal = withReactContent(Swal);
+const MySwal = withReactContent(Swal)
 
 const UserInfoCard = ({ selectedUser }) => {
   // ** State
-  const getCurrentUser = useSelector((state) => state.userApp.currentUser);
-  const [show, setShow] = useState(false);
+  const getCurrentUser = useSelector((state) => state.userApp.currentUser)
+  const [show, setShow] = useState(false)
 
   // ** Hook
   const {
@@ -83,14 +83,14 @@ const UserInfoCard = ({ selectedUser }) => {
     control,
     setError,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm({
     defaultValues: {
       username: selectedUser.fullName,
       lastName: selectedUser.fullName,
-      firstName: selectedUser.fullName,
-    },
-  });
+      firstName: selectedUser.fullName
+    }
+  })
 
   // ** render user img
   const renderUserImg = () => {
@@ -103,7 +103,7 @@ const UserInfoCard = ({ selectedUser }) => {
           src={selectedUser.avatar}
           className="img-fluid rounded mt-3 mb-2"
         />
-      );
+      )
     } else {
       return (
         <Avatar
@@ -115,39 +115,39 @@ const UserInfoCard = ({ selectedUser }) => {
             borderRadius: 0,
             fontSize: "calc(48px)",
             width: "100%",
-            height: "100%",
+            height: "100%"
           }}
           style={{
             height: "110px",
-            width: "110px",
+            width: "110px"
           }}
         />
-      );
+      )
     }
-  };
+  }
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log(data)
     if (Object.values(data).every((field) => field.length > 0)) {
-      setShow(false);
+      setShow(false)
     } else {
       for (const key in data) {
         if (data[key].length === 0) {
           setError(key, {
-            type: "manual",
-          });
+            type: "manual"
+          })
         }
       }
     }
-  };
+  }
 
   const handleReset = () => {
     reset({
       username: selectedUser.username,
       lastName: selectedUser.name,
-      firstName: selectedUser.name,
-    });
-  };
+      firstName: selectedUser.name
+    })
+  }
 
   const handleSuspendedClick = () => {
     return MySwal.fire({
@@ -159,9 +159,9 @@ const UserInfoCard = ({ selectedUser }) => {
       cancelButtonText: "Không",
       customClass: {
         confirmButton: "btn btn-primary",
-        cancelButton: "btn btn-outline-danger ms-1",
+        cancelButton: "btn btn-outline-danger ms-1"
       },
-      buttonsStyling: false,
+      buttonsStyling: false
     }).then(function (result) {
       if (result.value) {
         MySwal.fire({
@@ -169,21 +169,21 @@ const UserInfoCard = ({ selectedUser }) => {
           title: "Xóa nhân nhân viên!",
           text: "Tài khoản đã được xóa.",
           customClass: {
-            confirmButton: "btn btn-success",
-          },
-        });
+            confirmButton: "btn btn-success"
+          }
+        })
       } else if (result.dismiss === MySwal.DismissReason.cancel) {
         MySwal.fire({
           title: "Cancelled",
           text: "Cancelled Suspension :)",
           icon: "error",
           customClass: {
-            confirmButton: "btn btn-success",
-          },
-        });
+            confirmButton: "btn btn-success"
+          }
+        })
       }
-    });
-  };
+    })
+  }
 
   return (
     <Fragment>
@@ -195,9 +195,7 @@ const UserInfoCard = ({ selectedUser }) => {
               <div className="d-flex flex-column align-items-center text-center">
                 <div className="user-info">
                   <h4>
-                    {selectedUser !== null
-                      ? selectedUser.name
-                      : "Eleanor Aguilar"}
+                    {selectedUser !== null ? selectedUser.name : "Eleanor Aguilar"}
                   </h4>
                   {selectedUser !== null ? (
                     <Badge
@@ -229,9 +227,7 @@ const UserInfoCard = ({ selectedUser }) => {
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Trạng Thái Nhân Viên:</span>
 
-                  {selectedUser.status === "True"
-                    ? "Nhân Viên Chính Thức"
-                    : "Thử Việc"}
+                  {selectedUser.status === "True" ? "Nhân Viên Chính Thức" : "Thử Việc"}
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Chức Vụ :</span>
@@ -457,8 +453,8 @@ const UserInfoCard = ({ selectedUser }) => {
                   color="secondary"
                   outline
                   onClick={() => {
-                    handleReset();
-                    setShow(false);
+                    handleReset()
+                    setShow(false)
                   }}
                 >
                   Discard
@@ -469,7 +465,7 @@ const UserInfoCard = ({ selectedUser }) => {
         </ModalBody>
       </Modal>
     </Fragment>
-  );
-};
+  )
+}
 
-export default UserInfoCard;
+export default UserInfoCard

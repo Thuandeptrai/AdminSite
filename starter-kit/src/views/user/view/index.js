@@ -1,28 +1,25 @@
 // ** React Imports
-import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { Link, useParams } from "react-router-dom"
 
 // ** Store & Actions
-import { getUser, getWorkDay } from '../store'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUser } from '../store'
 import UserWorkDayTable from './UserWorkDayTable'
 // ** Reactstrap Imports
-import { Row, Col, Alert } from "reactstrap";
+import { Alert, Col, Row } from "reactstrap"
 
 // ** User View Components
-import UserTabs from "./Tabs";
-import PlanCard from "./PlanCard";
-import UserInfoCard from "./UserInfoCard";
+import UserInfoCard from "./UserInfoCard"
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
-import InvoiceList from './InvoiceList'
 
 const UserView = () => {
   // ** Store Vars
 const store = useSelector(state => state.userApp.selectedUser)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   // ** Hooks
   const { id } = useParams()
@@ -30,14 +27,14 @@ const store = useSelector(state => state.userApp.selectedUser)
 
   // ** Get suer on mount
   useEffect(() => {
-    dispatch(getUser(id));
-  }, [dispatch]);
-  console.log(store);
-  const [active, setActive] = useState("1");
+    dispatch(getUser(id))
+  }, [dispatch])
+  console.log(store)
+  const [active, setActive] = useState("1")
 
   const toggleTab = (tab) => {
     if (active !== tab) {
-      setActive(tab);
+      setActive(tab)
     }
   }
   return store !== null && store !== undefined ? (
@@ -59,6 +56,6 @@ const store = useSelector(state => state.userApp.selectedUser)
         <Link to="/apps/user/list">Users List</Link>
       </div>
     </Alert>
-  );
-};
-export default UserView;
+  )
+}
+export default UserView

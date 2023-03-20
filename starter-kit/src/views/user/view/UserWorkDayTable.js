@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useState, useEffect } from "react"
+import { Fragment, useEffect, useState } from "react"
 
 // ** Invoice List Sidebar
 
@@ -7,46 +7,28 @@ import { Fragment, useState, useEffect } from "react"
 import { columns } from "./columns"
 
 // ** Store & Actions
-import { getAllData, getData, getUserForVerify, getWorkDay } from "../store"
-import { useDispatch, useSelector } from "react-redux"
 import "flatpickr/dist/flatpickr.min.css"
+import { useDispatch, useSelector } from "react-redux"
+import { getAllData, getData } from "../store"
 // ** Third Party Components
-import Vietnamese from "flatpickr/dist/l10n/vn.js"
 import "flatpickr/dist/themes/material_blue.css"
-import Select from "react-select"
-import ReactPaginate from "react-paginate"
 import DataTable from "react-data-table-component"
 import {
-  ChevronDown,
-  Share,
-  Printer,
-  FileText,
-  File,
-  Grid,
-  Copy
+  ChevronDown
 } from "react-feather"
+import ReactPaginate from "react-paginate"
 
 // ** Utils
-import { selectThemeColors } from "@utils"
 
 // ** Reactstrap Imports
-import {
-  Row,
-  Col,
-  Card,
-  Input,
-  Label,
-  Button,
-  CardBody,
-  CardTitle,
-  CardHeader,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  UncontrolledDropdown
-} from "reactstrap"
-import Flatpickr from "react-flatpickr"
 import "@styles/react/libs/flatpickr/flatpickr.scss"
+import Flatpickr from "react-flatpickr"
+import {
+  Card,
+  Col,
+  Input,
+  Row
+} from "reactstrap"
 
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss"
