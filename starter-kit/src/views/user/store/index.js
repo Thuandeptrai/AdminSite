@@ -32,26 +32,23 @@ export const getUser = createAsyncThunk("appUsers/getUser", async (id) => {
   return response.data.data;
 });
 
-export const addUser = createAsyncThunk(
-  "appUsers/addUser",
-  async (user, { dispatch, getState }) => {
-    await fetchApi().post("/users/register", user);
-    await dispatch(getData(getState()));
-    await dispatch(getAllData());
-    return user;
-  }
-);
+// export const addUser = createAsyncThunk(
+//   "appUsers/addUser",
+//   async (user, { dispatch, getState }) => {
+//     await fetchApi().post("/users/register", user);
+//     await dispatch(getData(getState()));
+//     await dispatch(getAllData());
+//     return user;
+//   }
+// );
 
-export const deleteUser = createAsyncThunk(
-  "appUsers/deleteUser",
-  async (id, { dispatch, getState }) => {
-    const rs = await fetchApi().delete(`/users/delete/${id}`);
+// export const deleteUser = createAsyncThunk(
+//   "appUsers/deleteUser",
+//   async (id, { dispatch, getState }) => {
+//     const rs = await fetchApi().delete(`/users/delete/${id}`);
 
-export const getWorkDay = createAsyncThunk('appUsers/getWorkDay', async id => {
-  const response = await getWorkDateByUserId(id)
-  return response.data.data
-})
 
+// })
 
 export const addUser = createAsyncThunk('appUsers/addUser', async (user, { dispatch, getState }) => {
   await axios.post('/apps/users/add-user', user)
@@ -80,12 +77,8 @@ export const appUsersSlice = createSlice({
     currentUser: {},
     params: {},
     allData: [],
-<<<<<<< HEAD
-    selectedUser: null,
-=======
     workdayOfUser:[],
     selectedUser: null
->>>>>>> 32f69724c44992d305023ccbb11ec5137bde5213
   },
   reducers: {},
   extraReducers: (builder) => {
