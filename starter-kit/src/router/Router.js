@@ -21,7 +21,6 @@ const Router = () => {
   const allRoutes = getRoutes(layout)
 
   const routes = useRoutes([...allRoutes])
-  console.log(`sdafas`,routes.props)
   return routes
 }
 

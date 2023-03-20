@@ -1,13 +1,13 @@
 // ** React Imports
-import React from "react";
-import { useSkin } from "@hooks/useSkin";
-import { Link, useNavigate } from "react-router-dom";
-import { message } from "antd";
+import React from "react"
+import { useSkin } from "@hooks/useSkin"
+import { Link, useNavigate } from "react-router-dom"
+import { message } from "antd"
 // ** Icons Imports
-import { Facebook, Twitter, Mail, GitHub } from "react-feather";
+import { Facebook, Twitter, Mail, GitHub } from "react-feather"
 
 // ** Custom Components
-import InputPasswordToggle from "@components/input-password-toggle";
+import InputPasswordToggle from "@components/input-password-toggle"
 
 // ** Reactstrap Imports
 import {
@@ -18,39 +18,39 @@ import {
   Form,
   Label,
   Input,
-  Button,
-} from "reactstrap";
+  Button
+} from "reactstrap"
 // ** Illustrations Imports
-import illustrationsLight from "@src/assets/images/pages/login-v2.svg";
-import illustrationsDark from "@src/assets/images/pages/login-v2-dark.svg";
+import illustrationsLight from "@src/assets/images/pages/login-v2.svg"
+import illustrationsDark from "@src/assets/images/pages/login-v2-dark.svg"
 
 // ** Styles
-import "@styles/react/pages/page-authentication.scss";
-import { useState } from "react";
-import { loginUser } from "../utility/api/authen";
-import { useDispatch } from "react-redux";
-import { getUserForVerify } from "./user/store";
+import "@styles/react/pages/page-authentication.scss"
+import { useState } from "react"
+import { loginUser } from "../utility/api/authen"
+import { useDispatch } from "react-redux"
+import { getUserForVerify } from "./user/store"
 
 const Login = () => {
-  const { skin } = useSkin();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [username, setUserName] = useState("");
-  const [password, setPassWord] = useState("");
+  const { skin } = useSkin()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [username, setUserName] = useState("")
+  const [password, setPassWord] = useState("")
 
   const handleLogin = async () => {
-    const userData = await loginUser(username, password);
-    console.log(`userData`, userData);
+    const userData = await loginUser(username, password)
+    console.log(`userData`, userData)
     if (userData.status === 200) {
-      localStorage.setItem("userData", JSON.stringify(userData.data));
-      dispatch(getUserForVerify());
-      navigate("/home");
+      localStorage.setItem("userData", JSON.stringify(userData.data))
+      dispatch(getUserForVerify())
+      navigate("/home")
     } else {
-      message.error(`Sai tài khoản hoặc mật khẩu`);
+      message.error(`Sai tài khoản hoặc mật khẩu`)
     }
-  };
-  console.log(password);
-  const source = skin === "dark" ? illustrationsDark : illustrationsLight;
+  }
+  console.log(password)
+  const source = skin === "dark" ? illustrationsDark : illustrationsLight
 
   return (
     <div className="auth-wrapper auth-cover">
@@ -210,7 +210,7 @@ const Login = () => {
         </Col>
       </Row>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

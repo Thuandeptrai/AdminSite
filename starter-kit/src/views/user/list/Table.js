@@ -1,26 +1,26 @@
 // ** React Imports
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react"
 import {
   createBrowserRouter,
   RouterProvider,
   Route,
-  Link,
-} from "react-router-dom";
+  Link
+} from "react-router-dom"
 
 // ** Invoice List Sidebar
-import Sidebar from "./Sidebar";
+import Sidebar from "./Sidebar"
 
 // ** Table Columns
-import { columns } from "./columns";
+import { columns } from "./columns"
 
 // ** Store & Actions
-import { getAllData, getData, getUserForVerify } from "../store";
-import { useDispatch, useSelector } from "react-redux";
+import { getAllData, getData, getUserForVerify } from "../store"
+import { useDispatch, useSelector } from "react-redux"
 
 // ** Third Party Components
-import Select from "react-select";
-import ReactPaginate from "react-paginate";
-import DataTable from "react-data-table-component";
+import Select from "react-select"
+import ReactPaginate from "react-paginate"
+import DataTable from "react-data-table-component"
 import {
   ChevronDown,
   Share,
@@ -28,11 +28,11 @@ import {
   FileText,
   File,
   Grid,
-  Copy,
-} from "react-feather";
+  Copy
+} from "react-feather"
 
 // ** Utils
-import { selectThemeColors } from "@utils";
+import { selectThemeColors } from "@utils"
 
 // ** Reactstrap Imports
 import {
@@ -48,12 +48,12 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  UncontrolledDropdown,
-} from "reactstrap";
+  UncontrolledDropdown
+} from "reactstrap"
 
 // ** Styles
-import "@styles/react/libs/react-select/_react-select.scss";
-import "@styles/react/libs/tables/react-dataTable-component.scss";
+import "@styles/react/libs/react-select/_react-select.scss"
+import "@styles/react/libs/tables/react-dataTable-component.scss"
 
 // ** Table Header
 const CustomHeader = ({
@@ -62,51 +62,51 @@ const CustomHeader = ({
   handlePerPage,
   rowsPerPage,
   handleFilter,
-  searchTerm,
+  searchTerm
 }) => {
   // ** Converts table to CSV
   function convertArrayOfObjectsToCSV(array) {
-    let result;
+    let result
 
-    const columnDelimiter = ",";
-    const lineDelimiter = "\n";
-    const keys = Object.keys(store.data[0]);
+    const columnDelimiter = ","
+    const lineDelimiter = "\n"
+    const keys = Object.keys(store.data[0])
 
-    result = "";
-    result += keys.join(columnDelimiter);
-    result += lineDelimiter;
+    result = ""
+    result += keys.join(columnDelimiter)
+    result += lineDelimiter
 
     array.forEach((item) => {
-      let ctr = 0;
+      let ctr = 0
       keys.forEach((key) => {
-        if (ctr > 0) result += columnDelimiter;
+        if (ctr > 0) result += columnDelimiter
 
-        result += item[key];
+        result += item[key]
 
-        ctr++;
-      });
-      result += lineDelimiter;
-    });
+        ctr++
+      })
+      result += lineDelimiter
+    })
 
-    return result;
+    return result
   }
   // Invoke when user click to request another page.
 
   // ** Downloads CSV
   function downloadCSV(array) {
-    const link = document.createElement("a");
-    let csv = convertArrayOfObjectsToCSV(array);
-    if (csv === null) return;
+    const link = document.createElement("a")
+    let csv = convertArrayOfObjectsToCSV(array)
+    if (csv === null) return
 
-    const filename = "export.csv";
+    const filename = "export.csv"
 
     if (!csv.match(/^data:text\/csv/i)) {
-      csv = `data:text/csv;charset=utf-8,${csv}`;
+      csv = `data:text/csv;charset=utf-8,${csv}`
     }
 
-    link.setAttribute("href", encodeURI(csv));
-    link.setAttribute("download", filename);
-    link.click();
+    link.setAttribute("href", encodeURI(csv))
+    link.setAttribute("download", filename)
+    link.click()
   }
   return (
     <div className="invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75">
@@ -192,92 +192,92 @@ const CustomHeader = ({
         </Col>
       </Row>
     </div>
-  );
-};
+  )
+}
 
 const UsersList = () => {
   // ** Store Vars
-  const dispatch = useDispatch();
-  const store = useSelector((state) => state.userApp.data);
+  const dispatch = useDispatch()
+  const store = useSelector((state) => state.userApp.data)
   // ** States
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortColumn, setSortColumn] = useState("id");
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const [sortColumn, setSortColumn] = useState("id")
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [currentDepartment, setCurrentDepartment] = useState({
     value: "",
-    label: "Tất cả",
-  });
-  console.log("currentDepartment:", currentDepartment);
+    label: "Tất cả"
+  })
+  console.log("currentDepartment:", currentDepartment)
 
   const [currentRole, setCurrentRole] = useState({
     value: "",
-    label: "Tất cả",
-  });
+    label: "Tất cả"
+  })
 
   const [currentPlan, setCurrentPlan] = useState({
     value: "",
-    label: "Tất cả",
-  });
+    label: "Tất cả"
+  })
   const [currentStatus, setCurrentStatus] = useState({
     value: "",
     label: "Select Status",
-    number: 0,
-  });
+    number: 0
+  })
   // ** Function to toggle sidebar
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
   // ** Get data on mount
   // useEffect(() => {
   //   dispatch(getAllData());
   //   dispatch(getData());
   // }, []);
-  const [sort, setSort] = useState({ field: "name", direction: "desc" });
+  const [sort, setSort] = useState({ field: "name", direction: "desc" })
 
   // ** User filter options
   const roleOptions = [
     { value: "", label: "Tất cả" },
     { value: "True", label: "Admin" },
-    { value: "False", label: "Nhân viên" },
-  ];
+    { value: "False", label: "Nhân viên" }
+  ]
 
   const departmentOptions = [
     {
       value: "",
-      label: "Tất cả",
+      label: "Tất cả"
     },
     {
       value: "seo",
-      label: "SEO",
+      label: "SEO"
     },
     {
       value: "it",
-      label: "IT",
-    },
-  ];
+      label: "IT"
+    }
+  ]
   const planOptions = [
     { value: "", label: "Select Plan" },
     { value: "basic", label: "Basic" },
     { value: "company", label: "Company" },
     { value: "enterprise", label: "Enterprise" },
-    { value: "team", label: "Team" },
-  ];
+    { value: "team", label: "Team" }
+  ]
 
   const statusOptions = [
     { value: "", label: "Select Status", number: 0 },
     { value: "pending", label: "Pending", number: 1 },
     { value: "active", label: "Active", number: 2 },
-    { value: "inactive", label: "Inactive", number: 3 },
-  ];
+    { value: "inactive", label: "Inactive", number: 3 }
+  ]
 
   // ** Function in get data on page change
   const handlePagination = (page) => {
-    dispatch(getData());
-    setCurrentPage(page.selected + 1);
-  };
+    dispatch(getData())
+    setCurrentPage(page.selected + 1)
+  }
   // ** Function in get data on rows per page
   const handlePerPage = (e) => {
-    const value = parseInt(e.currentTarget.value);
+    const value = parseInt(e.currentTarget.value)
     dispatch(
       getData({
         sort,
@@ -287,20 +287,20 @@ const UsersList = () => {
         page: currentPage,
         role: currentRole.value,
         currentPlan: currentPlan.value,
-        status: currentStatus.value,
+        status: currentStatus.value
       })
-    );
-    setRowsPerPage(value);
-  };
+    )
+    setRowsPerPage(value)
+  }
   useEffect(() => {
     dispatch(
       getData({
         q: searchTerm,
         role: currentRole.value,
-        department: currentDepartment.value,
+        department: currentDepartment.value
       })
-    );
-  }, [searchTerm, currentRole, currentDepartment]);
+    )
+  }, [searchTerm, currentRole, currentDepartment])
   // ** Function in get data on search query change
   const handleFilter = (val) => {
     // setSearchTerm(val);
@@ -322,11 +322,11 @@ const UsersList = () => {
     //     // status: currentStatus.value
     //   })
     // );
-  };
+  }
 
   // ** Custom Pagination
   const CustomPagination = () => {
-    const count = Number(Math.ceil(store.length / rowsPerPage));
+    const count = Number(Math.ceil(store.length / rowsPerPage))
 
     return (
       <ReactPaginate
@@ -346,8 +346,8 @@ const UsersList = () => {
           "pagination react-paginate justify-content-end my-2 pe-1"
         }
       />
-    );
-  };
+    )
+  }
 
   // ** Table data to render
   const dataToRender = () => {
@@ -355,25 +355,25 @@ const UsersList = () => {
       role: currentRole.value,
       currentPlan: currentPlan.value,
       status: currentStatus.value,
-      q: searchTerm,
-    };
+      q: searchTerm
+    }
 
     const isFiltered = Object.keys(filters).some(function (k) {
-      return filters[k].length > 0;
-    });
+      return filters[k].length > 0
+    })
 
     if (store.data.length > 0) {
-      return store.data;
+      return store.data
     } else if (store.data.length === 0 && isFiltered) {
-      return [];
+      return []
     } else {
-      return store.allData.slice(0, rowsPerPage);
+      return store.allData.slice(0, rowsPerPage)
     }
-  };
+  }
 
   const handleSort = (column, sortDirection) => {
-    setSort(sortDirection);
-    setSortColumn(column.sortField);
+    setSort(sortDirection)
+    setSortColumn(column.sortField)
     dispatch(
       getData({
         sort,
@@ -383,10 +383,10 @@ const UsersList = () => {
         perPage: rowsPerPage,
         role: currentRole.value,
         status: currentStatus.value,
-        currentPlan: currentPlan.value,
+        currentPlan: currentPlan.value
       })
-    );
-  };
+    )
+  }
 
   return (
     <Fragment>
@@ -436,8 +436,8 @@ const UsersList = () => {
                 options={departmentOptions}
                 value={currentDepartment}
                 onChange={(data) => {
-                  setCurrentDepartment(data);
-                  dispatch(getData({}));
+                  setCurrentDepartment(data)
+                  dispatch(getData({}))
                 }}
               />
             </Col>
@@ -451,8 +451,8 @@ const UsersList = () => {
                 options={roleOptions}
                 value={currentRole}
                 onChange={(data) => {
-                  setCurrentRole(data);
-                  dispatch(getData({}));
+                  setCurrentRole(data)
+                  dispatch(getData({}))
                 }}
               />
             </Col>
@@ -508,7 +508,7 @@ const UsersList = () => {
 
       <Sidebar open={sidebarOpen} />
     </Fragment>
-  );
-};
+  )
+}
 
-export default UsersList;
+export default UsersList
