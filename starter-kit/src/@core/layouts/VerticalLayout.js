@@ -77,7 +77,7 @@ const VerticalLayout = (props) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [Time, setTime] = useState(moment().format("DD/MM/YY"))
-  const [currentHour, setCurrentHour] = useState(moment().format("hh:mm:ss"))
+  const [currentHour, setCurrentHour] = useState(moment().format("HH:mm:ss"))
   const [show, setShow] = useState(true)
 
   useEffect(() => {

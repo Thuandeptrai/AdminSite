@@ -29,7 +29,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 const InvoiceList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.invoice)
+  const store = useSelector(state => state.userApp.data)
 
   // ** States
   const [value] = useState('')
@@ -50,7 +50,7 @@ const InvoiceList = () => {
         status: statusValue
       })
     )
-  }, [dispatch, store.data.length])
+  }, [dispatch])
 
   const dataToRender = () => {
     const filters = {

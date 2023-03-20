@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getUser } from '../store'
+import { getUser, getWorkDay } from '../store'
 import { useSelector, useDispatch } from 'react-redux'
-
+import UserWorkDayTable from './UserWorkDayTable'
 // ** Reactstrap Imports
 import { Row, Col, Alert } from 'reactstrap'
 
@@ -16,6 +16,7 @@ import UserInfoCard from './UserInfoCard'
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
+import InvoiceList from './InvoiceList'
 
 const UserView = () => {
   // ** Store Vars
@@ -26,6 +27,7 @@ const store = useSelector(state => state.userApp.selectedUser)
   // ** Hooks
   const { id } = useParams()
   console.log(id)
+
   // ** Get suer on mount
   useEffect(() => {
     dispatch(getUser(id))
@@ -38,14 +40,15 @@ const store = useSelector(state => state.userApp.selectedUser)
       setActive(tab)
     }
   }
-
   return store !== null && store !== undefined ? (
     <div className='app-user-view'>
       <Row>
         <Col xl='4' lg='5' xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
           <UserInfoCard selectedUser={store} />
         </Col>
-   
+        <Col xl='8' lg='10' xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
+          <UserWorkDayTable />
+        </Col>  
       </Row>
     </div>
   ) : (

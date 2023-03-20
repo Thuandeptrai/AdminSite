@@ -5,6 +5,8 @@ import queryString from 'query-string'
 import axios from 'axios'
 import fetchApi from '../../../utility/api'
 import { getCurrentUser } from '../../../utility/api/user'
+import { getWorkDateByUserId } from '../../../utility/api/dateTime'
+
 
 export const getAllData = createAsyncThunk('appUsers/getAllData', async () => {
   const response = await fetchApi().get('/users/getAllUser')
@@ -26,6 +28,12 @@ export const getUser = createAsyncThunk('appUsers/getUser', async id => {
   const response = await fetchApi().get(`/users/${id}`)
   return response.data.data
 })
+
+export const getWorkDay = createAsyncThunk('appUsers/getWorkDay', async id => {
+  const response = await getWorkDateByUserId(id)
+  return response.data.data
+})
+
 
 export const addUser = createAsyncThunk('appUsers/addUser', async (user, { dispatch, getState }) => {
   await axios.post('/apps/users/add-user', user)
@@ -54,6 +62,7 @@ export const appUsersSlice = createSlice({
     currentUser: {},
     params: {},
     allData: [],
+    workdayOfUser:[],
     selectedUser: null
   },
   reducers: {},
@@ -66,6 +75,10 @@ export const appUsersSlice = createSlice({
         state.data = action.payload.data
         state.params = action.payload.params
         state.total = action.payload.totalPages
+      })
+      .addCase(getWorkDay.fulfilled, (state, action) => {
+        state.workdayOfUser = action.payload.workdayOfUser
+ 
       })
       .addCase(getUserForVerify.fulfilled, (state, action) => {
         state.currentUser = action.payload.currentUser
