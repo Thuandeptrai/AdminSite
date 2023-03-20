@@ -33,7 +33,7 @@ import {
 } from "reactstrap";
 
 // ** Renders Client Columns
-const renderClient = (row) => {
+const renderClient = row => {
   if (row.length) {
     return <Avatar className="me-1" img={row.avatar} width="32" height="32" />;
   } else {

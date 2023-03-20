@@ -199,19 +199,14 @@ const UsersList = () => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state.userApp.data);
   // ** States
-  const [sort, setSort] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState("id");
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentDepartment, setCurrentDepartment] = useState({
-    value: "",
-    label: "Tất cả",
-  });
   const [currentRole, setCurrentRole] = useState({
     value: "",
-    label: "Tất cả",
+    label: "Select Role",
   });
   const [currentPlan, setCurrentPlan] = useState({
     value: "",
@@ -222,7 +217,6 @@ const UsersList = () => {
     label: "Select Status",
     number: 0,
   });
-
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   // ** Get data on mount
@@ -230,6 +224,7 @@ const UsersList = () => {
     dispatch(getAllData());
     dispatch(getData());
   }, []);
+  const [sort, setSort] = useState({ field: "name", direction: "desc" });
 
   // ** User filter options
   const roleOptions = [
@@ -292,13 +287,22 @@ const UsersList = () => {
     );
     setRowsPerPage(value);
   };
-
+  useEffect(() => {
+    dispatch(
+      getData({
+        q: searchTerm,
+        status: currentStatus.value,
+        role: currentRole.value,
+      })
+    );
+  }, [currentStatus, searchTerm, currentPlan]);
   // ** Function in get data on search query change
   const handleFilter = (val) => {
     setSearchTerm(val);
+    console.log(currentStatus);
     dispatch(
       getData({
-        sort,
+        //sort,
         q: val,
         sortColumn,
         page: currentPage,
@@ -306,6 +310,11 @@ const UsersList = () => {
         role: currentRole.value,
         status: currentStatus.value,
         currentPlan: currentPlan.value,
+        status: currentStatus.value,
+        // page: currentPage,
+        // perPage: rowsPerPage,
+        // role: currentRole.value,
+        // status: currentStatus.value
       })
     );
   };
@@ -460,6 +469,7 @@ const UsersList = () => {
             subHeader
             sortServer
             pagination
+            sort={sort}
             responsive
             paginationServer
             columns={columns}
@@ -468,7 +478,9 @@ const UsersList = () => {
             className="react-dataTable"
             paginationComponent={CustomPagination}
             data={store.length !== undefined ? store : [store]}
-            subHeaderComponent={<CustomHeader store={store} />}
+            subHeaderComponent={
+              <CustomHeader store={store} handleFilter={handleFilter} />
+            }
           />
         </div>
       </Card>

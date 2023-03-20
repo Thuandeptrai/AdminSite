@@ -19,7 +19,7 @@ import "@styles/react/apps/app-users.scss";
 
 const UserView = () => {
   // ** Store Vars
-  const store = useSelector((state) => state.userApp.selectedUser);
+const store = useSelector(state => state.userApp.selectedUser)
 
   const dispatch = useDispatch();
 

@@ -15,8 +15,7 @@ import "@styles/react/apps/app-users.scss";
 import { useSelector } from "react-redux";
 
 const UsersList = () => {
-  const store = useSelector((state) => state.userApp.data);
-  console.log('storâe:', store)
+  const store = useSelector(state => state.userApp.data)
   return (
     <div className="app-user-list">
       <Row>
