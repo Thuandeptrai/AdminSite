@@ -28,8 +28,8 @@ export const getUser = createAsyncThunk("appUsers/getUser", async (id) => {
 export const addUser = createAsyncThunk(
   "appUsers/addUser",
   async (user, { dispatch, getState }) => {
-    await axios.post("/apps/users/add-user", user);
-    await dispatch(getData(getState().users.params));
+    await fetchApi().post("/users/register", user);
+    await dispatch(getData(getState()));
     await dispatch(getAllData());
     return user;
   }

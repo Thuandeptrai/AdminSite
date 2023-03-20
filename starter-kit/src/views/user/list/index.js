@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 
 const UsersList = () => {
   const store = useSelector((state) => state.userApp.data);
+  console.log('storâe:', store)
   return (
     <div className="app-user-list">
       <Row>
@@ -27,18 +28,18 @@ const UsersList = () => {
             renderStats={<h3 className="fw-bolder mb-75">{store.length}</h3>}
           />
         </Col>
-        <Col lg="3" sm="6">
+        {/* <Col lg="3" sm="6">
           <StatsHorizontal
             color="danger"
             statTitle="Paid Users"
             icon={<UserPlus size={20} />}
             renderStats={<h3 className="fw-bolder mb-75">4,567</h3>}
           />
-        </Col>
+        </Col> */}
         <Col lg="3" sm="6">
           <StatsHorizontal
             color="success"
-            statTitle="Active Users"
+            statTitle="Nhân viên chính thức"
             icon={<UserCheck size={20} />}
             renderStats={<h3 className="fw-bolder mb-75">19,860</h3>}
           />
@@ -46,7 +47,7 @@ const UsersList = () => {
         <Col lg="3" sm="6">
           <StatsHorizontal
             color="warning"
-            statTitle="Pending Users"
+            statTitle="Nhân viên thử việc"
             icon={<UserX size={20} />}
             renderStats={<h3 className="fw-bolder mb-75">237</h3>}
           />

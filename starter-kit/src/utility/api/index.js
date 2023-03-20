@@ -6,7 +6,7 @@ export const fetchApi = () => {
     baseURL: "http://localhost:4000/api/v1",
     //baseURL: "https://api.gofiber.vn/api",
 
-    method: "get" || "delete" || "post" || "patch",
+    method: "get" || "delete" || "post" || "patch" || "put",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${JSON.parse(localStorage.getItem("userData"))} `,

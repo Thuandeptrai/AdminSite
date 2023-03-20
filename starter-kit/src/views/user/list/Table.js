@@ -181,7 +181,7 @@ const CustomHeader = ({
               <Button
                 className="add-new-user"
                 color="primary"
-                onClick={toggleSidebar}
+                // onClick={toggleSidebar}
                 // onClick={onClickHandle}
               >
                 Add New User
