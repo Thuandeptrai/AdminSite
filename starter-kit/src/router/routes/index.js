@@ -35,6 +35,7 @@ const ForgotPassword = lazy(() => import("../../views/ForgotPassword"));
 const Error = lazy(() => import("../../views/Error"));
 const UsersList = lazy(() => import("../../views/user/list/index"));
 const UserDetail = lazy(() => import("../../views/user/view/index"));
+const TimeSheet = lazy(() => import("../../views/timesheet/index"));
 
 // ** Merge Routes
 const Routes = [
@@ -83,6 +84,11 @@ const Routes = [
     meta: {
       layout: "blank",
     },
+  },
+  {
+    path: "/timesheet",
+    element: <TimeSheet />,
+   
   },
 ];
 

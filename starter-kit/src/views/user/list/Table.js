@@ -226,10 +226,10 @@ const UsersList = () => {
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   // ** Get data on mount
-  useEffect(() => {
-    dispatch(getAllData());
-    dispatch(getData());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAllData());
+  //   dispatch(getData());
+  // }, []);
   const [sort, setSort] = useState({ field: "name", direction: "desc" });
 
   // ** User filter options
@@ -237,9 +237,6 @@ const UsersList = () => {
     { value: "", label: "Tất cả" },
     { value: "True", label: "Admin" },
     { value: "False", label: "Nhân viên" },
-    // { value: 'editor', label: 'Editor' },
-    // { value: 'maintainer', label: 'Maintainer' },
-    // { value: 'subscriber', label: 'Subscriber' }
   ];
 
   const departmentOptions = [
@@ -297,12 +294,11 @@ const UsersList = () => {
     dispatch(
       getData({
         q: searchTerm,
-        status: currentStatus.value,
         role: currentRole.value,
         department: currentDepartment.value,
       })
     );
-  }, [currentStatus, searchTerm, currentRole, currentDepartment]);
+  }, [searchTerm, currentRole, currentDepartment]);
   // ** Function in get data on search query change
   const handleFilter = (val) => {
     setSearchTerm(val);

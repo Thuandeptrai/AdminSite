@@ -1,4 +1,4 @@
-import { Mail, Home } from "react-feather";
+import { Mail, Home, FileText, Circle } from "react-feather";
 
 export default [
   {
@@ -19,5 +19,11 @@ export default [
     title: "Quản lí nhân sự",
     icon: <Mail size={20} />,
     navLink: "/UserView",
+  },
+  {
+    id: "timesheet",
+    title: "Quản lí lịch làm việc",
+    icon: <FileText size={20} />,
+    navLink: "/timesheet",
   },
 ];
