@@ -39,8 +39,16 @@ const AddEditUser = () => {
     });
   };
   const onFinish = async (value) => {
+    if (Object.keys(value.bankName).length > 0) {
+      value.bankName = value?.bankName?.value || value?.bankName;
+    }
+    if (Object.keys(value.bankName).length > 0) {
+      value.bankName = value?.bankName?.value || value?.bankName;
+    }
+
     console.log("value:", value);
-    // return;
+
+    return;
 
     if (id === "new") {
       const rs = await dispatch(addUser(value));
@@ -168,9 +176,12 @@ const AddEditUser = () => {
                    */}
                   <Select>
                     {ListBanks?.map((item) => (
-                      <option key={item?.bin} value={item?.short_name}>
+                      // <option key={item?.bin} value={item?.short_name}>
+                      //   {item?.short_name} - {item?.name}
+                      // </option>
+                      <Select.Option value={item?.short_name}>
                         {item?.short_name} - {item?.name}
-                      </option>
+                      </Select.Option>
                     ))}
                   </Select>
                 </Form.Item>
