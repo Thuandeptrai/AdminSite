@@ -244,7 +244,6 @@ const UsersList = () => {
     setRowsPerPage(value)
   }
   useEffect(() => {
-    console.log(currentStatus)
     dispatch(getData({q:searchTerm, status: currentStatus.value, role:currentRole.value}))
   }, [currentStatus, searchTerm, currentPlan])
   // ** Function in get data on search query change
