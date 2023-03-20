@@ -35,18 +35,25 @@ const invoiceStatusObj = {
 // ** Table columns
 export const columns = [
   {
+    name: 'Ngày',
+    sortable: true,
+    sortField: 'date',
+    minWidth: '107px',
+    selector: row => moment.unix(row.DateIn).format("DD/MM/yy")
+  },
+  {
     name: 'Giờ Vào',
     sortable: true,
-    sortField: 'id',
+    sortField: 'dateIn',
     minWidth: '107px',
-    selector: row => moment.unix(row.userDateIn).format("HH:mm")
+    selector: row => row.userDateIn.map((date, i) => <span key={i}>{`${moment.unix(date).format("HH:mm") }, `}</span>)
   },
   {
     name: 'Giờ Giờ Ra',
     sortable: true,
-    sortField: 'id',
+    sortField: 'DateOut',
     minWidth: '107px',
-    selector: row => moment.unix(row.userDateOut).format("HH:mm")
+    selector: row => row.userDateOut.map((date, i) => <span key={i}>{`${moment.unix(date).format("HH:mm") }, `}</span>)
 
   },
 
