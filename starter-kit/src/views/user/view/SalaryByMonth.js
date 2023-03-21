@@ -1,10 +1,13 @@
+import React from "react"
+
 // ** React Imports
-import { Fragment, useEffect, useState } from "react"
+
+// ** Custom Components
+// ** Reactstrap Importsimport { Fragment, useEffect, useState } from "react"
 
 // ** Invoice List Sidebar
 
 // ** Table Columns
-import { columns } from "./columns"
 
 // ** Store & Actions
 import "flatpickr/dist/flatpickr.min.css"
@@ -13,28 +16,90 @@ import { getAllData, getData } from "../store"
 // ** Third Party Components
 import "flatpickr/dist/themes/material_blue.css"
 import DataTable from "react-data-table-component"
-import {
-  ChevronDown
-} from "react-feather"
+import { ChevronDown } from "react-feather"
 import ReactPaginate from "react-paginate"
-
 // ** Utils
 
 // ** Reactstrap Imports
 import "@styles/react/libs/flatpickr/flatpickr.scss"
 import Flatpickr from "react-flatpickr"
-import {
-  Card,
-  Col,
-  Input,
-  Row
-} from "reactstrap"
+import { Card, Col, Input, Row } from "reactstrap"
 
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss"
 import "@styles/react/libs/tables/react-dataTable-component.scss"
 import { useParams } from "react-router-dom"
-import { getWorkDateByUserId } from "../../../utility/api/dateTime"
+import { getWorkDateByUserId, getSalary } from "../../../utility/api/dateTime"
+// ** Third Party Components
+import moment from "moment"
+
+// ** Table columns
+export const columns = [
+  {
+    name: "Số Ngày Công Chuẩn",
+    sortable: true,
+    sortField: "date",
+    minWidth: "107px",
+    selector: (row) => row.rateWorkByMonth
+
+  },
+  {
+    name: "Số Công Của Bạn",
+    sortable: true,
+    sortField: "dateIn",
+    minWidth: "107px",
+    selector: (row) => row.totalWorkInMonth
+  },
+  {
+    name: "Ngày",
+    sortable: true,
+    sortField: "DateOut",
+    minWidth: "107px",
+    selector: (row) => `${row.month}/ ${row.year}` 
+  },
+  {
+    name: "Mức Lương Chuẩn",
+    sortable: true,
+    sortField: "DateOut",
+    minWidth: "107px",
+    selector: (row) => `${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(row.salaryOfUser)}`
+  },
+  {
+    name: "Tổng Số Giờ",
+    sortable: true,
+    minWidth: "150px",
+    sortField: "total",
+    selector: (row) => row.totalWorkInMonth
+  },
+  {
+    name: "Tổng Lương",
+    sortable: true,
+    minWidth: "150px",
+    sortField: "total",
+    selector: (row) => `${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format((row.salaryOfUser / row.rateWorkByMonth) * row.totalWorkInMonth)}`
+  }
+]
+
+// ** React Imports
+import { Fragment, useEffect, useState } from "react"
+
+// ** Invoice List Sidebar
+
+// ** Table Columns
+
+// ** Store & Actions
+import "flatpickr/dist/flatpickr.min.css"
+// ** Third Party Components
+import "flatpickr/dist/themes/material_blue.css"
+
+// ** Utils
+
+// ** Reactstrap Imports
+import "@styles/react/libs/flatpickr/flatpickr.scss"
+
+// ** Styles
+import "@styles/react/libs/react-select/_react-select.scss"
+import "@styles/react/libs/tables/react-dataTable-component.scss"
 
 // ** Table Header
 const CustomHeader = ({
@@ -195,10 +260,13 @@ const CustomHeader = ({
 
 const UserWorkDayTable = () => {
   // ** Store Vars
+}
+
+export default function SalaryByMonth() {
   const dispatch = useDispatch()
   const { id } = useParams()
   const store = useSelector((state) => state.userApp.data)
-  
+
   // ** States
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
@@ -207,7 +275,7 @@ const UserWorkDayTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [userWorkDay, setUserWorkDay] = useState([])
-  
+
   const [currentRole, setCurrentRole] = useState({
     value: "",
     label: "Select Role"
@@ -221,16 +289,17 @@ const UserWorkDayTable = () => {
     label: "Select Status",
     number: 0
   })
-  useEffect(() => {
-     const getUser = async () => {
-      const response = await getWorkDateByUserId(id)
-      console.log(response.data.HourWork[0])
-       const arr3 = response.data.data.map((item, i) => Object.assign({}, item, response.data.HourWork[i]))
-      setUserWorkDay(arr3)
+  useEffect(
+    () => {
+      const getUser = async () => {
+        const response = await getSalary()
+     
+        setUserWorkDay(response.data)
       }
-    getUser()
-  }
-  , {id})
+      getUser()
+    },
+    { id }
+  )
   console.log(userWorkDay)
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
@@ -381,12 +450,7 @@ const UserWorkDayTable = () => {
 
   return (
     <Fragment>
-      <div>
-        
-      </div>
-       <h1 className="mx-auto">Tổng Số Số Giờ Làm Việc Trong Tháng</h1>
       <Card className="overflow-hidden">
-       
         <div className="react-dataTable">
           <DataTable
             noHeader
@@ -411,5 +475,3 @@ const UserWorkDayTable = () => {
     </Fragment>
   )
 }
-
-export default UserWorkDayTable

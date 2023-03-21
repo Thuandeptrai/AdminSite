@@ -3,9 +3,9 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 
 // ** Store & Actions
-import { useDispatch, useSelector } from "react-redux"
-import { getUser } from "../store"
-import UserWorkDayTable from "./UserWorkDayTable"
+import { useDispatch, useSelector } from 'react-redux'
+import { getUser } from '../store'
+import UserWorkDayTable from './UserWorkDayTable'
 // ** Reactstrap Imports
 import { Alert, Col, Row } from "reactstrap"
 
@@ -14,12 +14,11 @@ import UserInfoCard from "./UserInfoCard"
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
-import UserWorkDayTableSalary from "./UserWorkDayTableForSalary"
 
-const UserView = () => {
+const UserViewSpecificDetail = () => {
   // ** Store Vars
-  const store = useSelector((state) => state.userApp.selectedUser)
-
+const store = useSelector(state => state.userApp.currentUser)
+    console.log(store)
   const dispatch = useDispatch()
 
   // ** Hooks
@@ -44,12 +43,9 @@ const UserView = () => {
         <Col xl="4" lg="5" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
           <UserInfoCard selectedUser={store} />
         </Col>
-        <Col xl="8" lg="10" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
+        <Col xl='8' lg='10' xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
           <UserWorkDayTable />
-        </Col>
-        <Col xl='12' lg='12' xs={{ order: 1 }} md={{ order: 0, size: 12 }}>
-          <UserWorkDayTableSalary />
-        </Col>    
+        </Col>  
       </Row>
     </div>
   ) : (
@@ -62,4 +58,4 @@ const UserView = () => {
     </Alert>
   )
 }
-export default UserView
+export default UserViewSpecificDetail

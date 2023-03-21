@@ -12,3 +12,12 @@ export const getWorkDateByUserId = async (userId) => {
     return error.response
   }
 }
+export const getSalary = async () => {
+  try {
+    const response = await fetchApi().get("/workDay/getSalary/Salary")
+
+    return response.data
+  } catch (error) {
+    return error.response
+  }
+}
