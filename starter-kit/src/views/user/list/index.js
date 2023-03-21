@@ -27,7 +27,14 @@ const UsersList = () => {
             renderStats={<h3 className="fw-bolder mb-75">{store.length}</h3>}
           />
         </Col>
-       
+        {/* <Col lg="3" sm="6">
+          <StatsHorizontal
+            color="danger"
+            statTitle="Paid Users"
+            icon={<UserPlus size={20} />}
+            renderStats={<h3 className="fw-bolder mb-75">4,567</h3>}
+          />
+        </Col> */}
         <Col lg="3" sm="6">
           <StatsHorizontal
             color="success"
