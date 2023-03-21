@@ -42,3 +42,12 @@ export const checkOutForUser = async () => {
       return error.response
     }
   }
+  export const updateDate = async (body) => {
+    try {
+      const response = await fetchApi().post(`/workDay/updateUser`, {body})
+  
+      return response
+    } catch (error) {
+      return error.response
+    }
+  }
