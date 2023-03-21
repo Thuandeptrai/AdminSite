@@ -22,4 +22,13 @@ export const checkOutForUser = async () => {
       return error.response
     }
   }
+  export const getSalary = async () => {
+    try {
+      const response = await fetchApi().get("/workDay/Salary")
+  
+      return response
+    } catch (error) {
+      return error.response
+    }
+  }
   

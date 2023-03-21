@@ -7,12 +7,7 @@ export default [
     icon: <Home size={20} />,
     navLink: "/home"
   },
-  {
-    id: "secondPage",
-    title: "Second Page",
-    icon: <Mail size={20} />,
-    navLink: "/second-page"
-  },
+
   {
     id: "managerUser",
     title: "Quản lí nhân sự",
@@ -24,7 +19,7 @@ export default [
     id: "TotalWork In Month",
     title: "Quản Lý Lương",
     icon: <DollarSign size={20} />,
-    navLink: "/ABc"
+    navLink: "/QuanLyLuong"
   },
   {
     id: "timesheet",

@@ -1,14 +1,14 @@
-import { fetchApi } from ".";
-import React from "react";
+import { fetchApi } from "."
+import React from "react"
 
-const pathname = "/auth";
+const pathname = "/auth"
 export const loginUser = async (username, password) => {
-  const url = `${pathname}/login`;
+  const url = `${pathname}/login`
   try {
-    const response = await fetchApi().post(url, { username, password });
+    const response = await fetchApi().post(url, { username, password })
 
-    return response;
+    return response
   } catch (error) {
-    return error.response;
+    return error.response
   }
-};
+}

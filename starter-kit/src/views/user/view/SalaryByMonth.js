@@ -18,7 +18,6 @@ import "flatpickr/dist/themes/material_blue.css"
 import DataTable from "react-data-table-component"
 import { ChevronDown } from "react-feather"
 import ReactPaginate from "react-paginate"
-
 // ** Utils
 
 // ** Reactstrap Imports
@@ -30,46 +29,54 @@ import { Card, Col, Input, Row } from "reactstrap"
 import "@styles/react/libs/react-select/_react-select.scss"
 import "@styles/react/libs/tables/react-dataTable-component.scss"
 import { useParams } from "react-router-dom"
-import { getWorkDateByUserId } from "../../../utility/api/dateTime"
-
+import { getWorkDateByUserId, getSalary } from "../../../utility/api/dateTime"
 // ** Third Party Components
 import moment from "moment"
 
 // ** Table columns
 export const columns = [
   {
-    name: "Ngày",
+    name: "Số Ngày Công Chuẩn",
     sortable: true,
     sortField: "date",
     minWidth: "107px",
-    selector: (row) => moment.unix(row.DateIn).format("DD/MM/yy")
+    selector: (row) => row.rateWorkByMonth
+
   },
   {
-    name: "Giờ Vào",
+    name: "Số Công Của Bạn",
     sortable: true,
     sortField: "dateIn",
     minWidth: "107px",
-    selector: (row) => row.userDateIn.map((date, i) => (
-        <span key={i}>{`${moment.unix(date).format("HH:mm")}, `}</span>
-      ))
+    selector: (row) => row.totalWorkInMonth
   },
   {
-    name: "Giờ  Ra",
+    name: "Ngày",
     sortable: true,
     sortField: "DateOut",
     minWidth: "107px",
-    selector: (row) => row.userDateOut.map((date, i) => (
-        <span key={i}>{`${moment.unix(date).format("HH:mm")}, `}</span>
-      ))
+    selector: (row) => `${row.month}/ ${row.year}` 
   },
-
+  {
+    name: "Mức Lương Chuẩn",
+    sortable: true,
+    sortField: "DateOut",
+    minWidth: "107px",
+    selector: (row) => `${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(row.salaryOfUser)}`
+  },
   {
     name: "Tổng Số Giờ",
     sortable: true,
     minWidth: "150px",
     sortField: "total",
-    selector: (row) => row.workHour,
-    cell: (row) => <span>{row.workHour || 0}</span>
+    selector: (row) => row.totalWorkInMonth
+  },
+  {
+    name: "Tổng Lương",
+    sortable: true,
+    minWidth: "150px",
+    sortField: "total",
+    selector: (row) => `${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format((row.salaryOfUser / row.rateWorkByMonth) * row.totalWorkInMonth)}`
   }
 ]
 
@@ -285,11 +292,9 @@ export default function SalaryByMonth() {
   useEffect(
     () => {
       const getUser = async () => {
-        const response = await getWorkDateByUserId(id)
-        console.log(response.data.HourWork[0])
-        const arr3 = response.data.data.map((item, i) => Object.assign({}, item, response.data.HourWork[i])
-        )
-        setUserWorkDay(arr3)
+        const response = await getSalary()
+     
+        setUserWorkDay(response.data)
       }
       getUser()
     },
