@@ -15,7 +15,7 @@ const TimeSheet = () => {
   }, [])
   return (
     <>
-      <ResultTable data={date} />
+      <ResultTable data={date} getDate={getDate}/>
     </>
   )
 }

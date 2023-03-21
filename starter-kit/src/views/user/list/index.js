@@ -1,21 +1,21 @@
 // ** User List Component
-import Table from "./Table";
+import Table from "./Table"
 
 // ** Reactstrap Imports
-import { Row, Col } from "reactstrap";
+import { Row, Col } from "reactstrap"
 
 // ** Custom Components
-import StatsHorizontal from "@components/widgets/stats/StatsHorizontal";
+import StatsHorizontal from "@components/widgets/stats/StatsHorizontal"
 
 // ** Icons Imports
-import { User, UserPlus, UserCheck, UserX } from "react-feather";
+import { User, UserPlus, UserCheck, UserX } from "react-feather"
 
 // ** Styles
-import "@styles/react/apps/app-users.scss";
-import { useSelector } from "react-redux";
+import "@styles/react/apps/app-users.scss"
+import { useSelector } from "react-redux"
 
 const UsersList = () => {
-  const store = useSelector((state) => state.userApp.data);
+  const store = useSelector((state) => state.userApp.data)
   return (
     <div className="app-user-list">
       <Row>
@@ -27,14 +27,7 @@ const UsersList = () => {
             renderStats={<h3 className="fw-bolder mb-75">{store.length}</h3>}
           />
         </Col>
-        {/* <Col lg="3" sm="6">
-          <StatsHorizontal
-            color="danger"
-            statTitle="Paid Users"
-            icon={<UserPlus size={20} />}
-            renderStats={<h3 className="fw-bolder mb-75">4,567</h3>}
-          />
-        </Col> */}
+       
         <Col lg="3" sm="6">
           <StatsHorizontal
             color="success"
@@ -54,7 +47,7 @@ const UsersList = () => {
       </Row>
       <Table />
     </div>
-  );
-};
+  )
+}
 
-export default UsersList;
+export default UsersList

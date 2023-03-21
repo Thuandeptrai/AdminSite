@@ -2,11 +2,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import queryString from "query-string"
 // ** Axios Imports
-import axios from 'axios'
-import fetchApi from '../../../utility/api'
-import { getCurrentUser } from '../../../utility/api/user'
-import { getWorkDateByUserId } from '../../../utility/api/dateTime'
-
+import axios from "axios"
+import fetchApi from "../../../utility/api"
+import { getCurrentUser } from "../../../utility/api/user"
+import { getWorkDateByUserId } from "../../../utility/api/dateTime"
 
 export const getAllData = createAsyncThunk("appUsers/getAllData", async () => {
   const response = await fetchApi().get("/users/getAllUser")
@@ -47,27 +46,35 @@ export const getUser = createAsyncThunk("appUsers/getUser", async (id) => {
 //   async (id, { dispatch, getState }) => {
 //     const rs = await fetchApi().delete(`/users/delete/${id}`);
 
-
 // })
 
-export const addUser = createAsyncThunk('appUsers/addUser', async (user, { dispatch, getState }) => {
-  await axios.post('/apps/users/add-user', user)
-  await dispatch(getData(getState().users.params))
-  await dispatch(getAllData())
-  return user
-})
+export const addUser = createAsyncThunk(
+  "appUsers/addUser",
+  async (user, { dispatch, getState }) => {
+    await axios.post("/apps/users/add-user", user)
+    // await dispatch(getData(getState().users.params))
+    await dispatch(getAllData())
+    return user
+  }
+)
 
-export const deleteUser = createAsyncThunk('appUsers/deleteUser', async (id, { dispatch, getState }) => {
-  await axios.delete('/apps/users/delete', { id })
-  await dispatch(getData(getState().users.params))
-  await dispatch(getAllData())
-  return id
-})
-export const getUserForVerify = createAsyncThunk('appUsers/CurrentUser', async () => {
-  const response = await getCurrentUser()
-  return  {currentUser:response.data}
-    
-})
+export const deleteUser = createAsyncThunk(
+  "appUsers/deleteUser",
+  async (id, { dispatch, getState }) => {
+    // await axios.delete('/apps/users/delete', { id })
+    await fetchApi().delete(`/users/delete/${id}`)
+    // await dispatch(getData(getState().users.params))
+    await dispatch(getAllData())
+    return id
+  }
+)
+export const getUserForVerify = createAsyncThunk(
+  "appUsers/CurrentUser",
+  async () => {
+    const response = await getCurrentUser()
+    return { currentUser: response.data }
+  }
+)
 
 export const appUsersSlice = createSlice({
   name: "appUsers",
@@ -77,7 +84,7 @@ export const appUsersSlice = createSlice({
     currentUser: {},
     params: {},
     allData: [],
-    workdayOfUser:[],
+    workdayOfUser: [],
     selectedUser: null
   },
   reducers: {},

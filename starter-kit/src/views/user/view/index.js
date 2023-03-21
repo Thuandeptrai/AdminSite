@@ -3,9 +3,9 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 
 // ** Store & Actions
-import { useDispatch, useSelector } from 'react-redux'
-import { getUser } from '../store'
-import UserWorkDayTable from './UserWorkDayTable'
+import { useDispatch, useSelector } from "react-redux"
+import { getUser } from "../store"
+import UserWorkDayTable from "./UserWorkDayTable"
 // ** Reactstrap Imports
 import { Alert, Col, Row } from "reactstrap"
 
@@ -13,11 +13,11 @@ import { Alert, Col, Row } from "reactstrap"
 import UserInfoCard from "./UserInfoCard"
 
 // ** Styles
-import '@styles/react/apps/app-users.scss'
+import "@styles/react/apps/app-users.scss"
 
 const UserView = () => {
   // ** Store Vars
-const store = useSelector(state => state.userApp.selectedUser)
+  const store = useSelector((state) => state.userApp.selectedUser)
 
   const dispatch = useDispatch()
 
@@ -43,9 +43,9 @@ const store = useSelector(state => state.userApp.selectedUser)
         <Col xl="4" lg="5" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
           <UserInfoCard selectedUser={store} />
         </Col>
-        <Col xl='8' lg='10' xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
+        <Col xl="8" lg="10" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
           <UserWorkDayTable />
-        </Col>  
+        </Col>
       </Row>
     </div>
   ) : (

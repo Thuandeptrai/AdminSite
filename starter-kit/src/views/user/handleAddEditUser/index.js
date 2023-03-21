@@ -1,78 +1,80 @@
-import React, { useState, useEffect } from "react";
-import { Button, Form, Input, Row, Col, Select, message } from "antd";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { addUser, getUser } from "./../store/index";
-import { ListBanks } from "../../../utility/common/listBank";
-import { updateUser } from "../../../utility/api/user";
+import React, { useState, useEffect } from "react"
+import { Button, Form, Input, Row, Col, Select, message } from "antd"
+import { useParams } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { addUser, getUser } from "./../store/index"
+import { ListBanks } from "../../../utility/common/listBank"
+import { insertUser, updateUser } from "../../../utility/api/user"
 
 const AddEditUser = () => {
-  const dispatch = useDispatch();
-  const [form] = Form.useForm();
-  const { handle, id } = useParams();
+  const dispatch = useDispatch()
+  const [form] = Form.useForm()
+  const { id } = useParams()
   const [departmentValue, setDepartmentValue] = useState({
     value: "it",
-    label: "IT",
-  });
+    label: "IT"
+  })
   const [bankNameValue, setBankNameValue] = useState({
-    value: ListBanks[0]?.short_name,
-  });
+    value: ListBanks[0]?.short_name
+  })
   const [positionValue, setPositionValue] = useState({
     value: "False",
-    label: "Nhân viên",
-  });
+    label: "Nhân viên"
+  })
   const positionOptions = [
     {
       value: "False",
-      label: "Nhân viên",
+      label: "Nhân viên"
     },
     {
       value: "True",
-      label: "Admin",
-    },
-  ];
+      label: "Admin"
+    }
+  ]
   const getUserDataDetail = async () => {
-    const rs = await dispatch(getUser(id));
-    const data = rs.payload;
+    const rs = await dispatch(getUser(id))
+    const data = rs.payload
     form.setFieldsValue({
-      ...data,
-    });
-  };
+      ...data
+    })
+  }
   const onFinish = async (value) => {
     if (Object.keys(value.bankName).length > 0) {
-      value.bankName = value?.bankName?.value || value?.bankName;
+      value.bankName = value?.bankName?.value || value?.bankName
     }
-    if (Object.keys(value.bankName).length > 0) {
-      value.bankName = value?.bankName?.value || value?.bankName;
+    if (Object.keys(value.isAdmin).length > 0) {
+      value.isAdmin = value?.isAdmin?.value || value?.isAdmin
     }
-
-    console.log("value:", value);
-
-    return;
+    if (Object.keys(value.department).length > 0) {
+      value.department = value?.department?.value || value?.department
+    }
 
     if (id === "new") {
-      const rs = await dispatch(addUser(value));
-      if (rs?.payload) {
-        message.success("Tạo thành công");
+      const rs = await insertUser(value)
+      console.log("rs:", rs)
+      if (rs?.statusText === "OK") {
+        message.success("Tạo thành công")
+      } else {
+        message.error(rs?.response?.data)
       }
     } else {
-      const rs = await updateUser(value?.id, value);
+      const rs = await updateUser(value?.id, value)
       if (rs?.statusText === "OK") {
-        message.success("Cập nhật thành công");
+        message.success("Cập nhật thành công")
       }
     }
-  };
+  }
   useEffect(() => {
     if (id !== "new") {
-      getUserDataDetail();
+      getUserDataDetail()
     } else {
       form.setFieldsValue({
         department: departmentValue,
         isAdmin: positionValue,
-        bankName: bankNameValue,
-      });
+        bankName: bankNameValue
+      })
     }
-  }, [id]);
+  }, [id])
   return (
     <>
       <Form
@@ -80,9 +82,7 @@ const AddEditUser = () => {
         name="basic"
         layout="vertical"
         onFinish={onFinish}
-        // onFinishFailed={onFinishFailed}
-
-        autoComplete="off"
+        // autoComplete="off"
       >
         <Row gutter={16}>
           <Col span="8">
@@ -99,8 +99,8 @@ const AddEditUser = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Vui lòng nhập họ tên nhân viên!",
-                    },
+                      message: "Vui lòng nhập họ tên nhân viên!"
+                    }
                   ]}
                 >
                   <Input />
@@ -113,8 +113,8 @@ const AddEditUser = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Vui lòng nhập mã số nhân viên!",
-                    },
+                      message: "Vui lòng nhập mã số nhân viên!"
+                    }
                   ]}
                 >
                   <Input />
@@ -134,19 +134,14 @@ const AddEditUser = () => {
             <Row>
               <Col span="24">
                 <Form.Item label="Chức vụ" name="isAdmin">
-                  <Select
-                    defaultValue={positionValue}
-                    options={positionOptions}
-                  />
+                  <Select options={positionOptions} />
                 </Form.Item>
               </Col>
               <Col span="24">
                 <Form.Item
                   label="Số điện thoại"
                   name="phonenumber"
-                  rules={[
-                    { required: true, message: "Vui lòng điền số điện thoại!" },
-                  ]}
+                  rules={[{ required: true, message: "Vui lòng điền số điện thoại!" }]}
                 >
                   <Input />
                 </Form.Item>
@@ -168,9 +163,7 @@ const AddEditUser = () => {
                 <Form.Item
                   label="Ngân hàng"
                   name="bankName"
-                  rules={[
-                    { required: true, message: "Vui lòng chọn ngân hàng!" },
-                  ]}
+                  rules={[{ required: true, message: "Vui lòng chọn ngân hàng!" }]}
                 >
                   {/* <Input />
                    */}
@@ -190,9 +183,7 @@ const AddEditUser = () => {
                 <Form.Item
                   label="Số tài khoản"
                   name="userBankNumber"
-                  rules={[
-                    { required: true, message: "Vui lòng nhập số tài khoản!" },
-                  ]}
+                  rules={[{ required: true, message: "Vui lòng nhập số tài khoản!" }]}
                 >
                   <Input />
                 </Form.Item>
@@ -201,9 +192,7 @@ const AddEditUser = () => {
                 <Form.Item
                   label="Mức lương"
                   name="salary"
-                  rules={[
-                    { required: true, message: "Vui lòng chọn mức lương" },
-                  ]}
+                  rules={[{ required: true, message: "Vui lòng chọn mức lương" }]}
                 >
                   <Input />
                 </Form.Item>
@@ -219,6 +208,6 @@ const AddEditUser = () => {
         </Form.Item>
       </Form>
     </>
-  );
-};
-export default AddEditUser;
+  )
+}
+export default AddEditUser

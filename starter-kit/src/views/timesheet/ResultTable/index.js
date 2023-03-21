@@ -1,35 +1,47 @@
-import { Table } from "antd";
-import React from "react";
-const ResultTable = ({ data }) => {
-  console.log("data:", data);
-
+import { Table } from "antd"
+import DataTable from "react-data-table-component"
+import React from "react"
+import ExampleModal from "./../modal/index"
+import { useSelector } from 'react-redux'
+const ResultTable = ({ data, getDate }) => {
+const currentUser = useSelector(state => state.userApp.currentUser)
+console.log("daaata:", data)
+  const handleEdit = (id) => {}
   const columns = [
     {
-      title: "Thời gian bắt đầu làm việc",
-      dataIndex: "dateIn",
-      key: "dateIn",
+      name: "Thời gian bắt đầu làm việc",
+      selector: "dateIn"
     },
     {
-      title: "Thời gian kết thúc làm việc",
-      dataIndex: "dateOut",
-      key: "dateOut",
+      name: "Thời gian kết thúc làm việc",
+      selector: "dateOut"
     },
     {
-      title: "Thời gian cho phép đi trễ",
-      dataIndex: "lateDate",
-      key: "lateDate",
+      name: "Thời gian cho phép đi trễ",
+      selector: "lateDate"
     },
     {
-      title: "Thời gian bắt đầu nghĩ trưa",
-      dataIndex: "leisureTimeStart",
-      key: "leisureTimeStart",
+      name: "Thời gian bắt đầu nghĩ trưa",
+      selector: "leisureTimeStart"
     },
     {
-      title: "Thời gian kết thúc nghĩ trưa",
-      dataIndex: "leisureTimeEnd",
-      key: "leisureTimeEnd",
+      name: "Thời gian kết thúc nghĩ trưa",
+      selector: "leisureTimeEnd"
     },
-  ];
-  return <Table dataSource={data} columns={columns} />;
-};
-export default ResultTable;
+    {
+      name: "Hành động",
+      cell: (row) => {
+        console.log("row:", row)
+        return (
+          <div>
+            {/* <button
+             onClick={() => handleEdit(row?._id)}>Edit</button> */}
+             {currentUser.isAdmin === "True" ? <ExampleModal data={row} getDate={getDate} /> : null }           </div>
+        )
+      }
+    }
+  ]
+  // return <Table dataSource={data} columns={columns} />
+  return <DataTable columns={columns} data={data} />
+}
+export default ResultTable
