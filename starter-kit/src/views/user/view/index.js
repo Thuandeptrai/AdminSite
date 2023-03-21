@@ -14,6 +14,7 @@ import UserInfoCard from "./UserInfoCard"
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
+import UserWorkDayTableSalary from "./UserWorkDayTableForSalary"
 
 const UserView = () => {
   // ** Store Vars
@@ -45,7 +46,10 @@ const store = useSelector(state => state.userApp.selectedUser)
         </Col>
         <Col xl='8' lg='10' xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
           <UserWorkDayTable />
-        </Col>  
+        </Col>
+        <Col xl='12' lg='12' xs={{ order: 1 }} md={{ order: 0, size: 12 }}>
+          <UserWorkDayTableSalary />
+        </Col>    
       </Row>
     </div>
   ) : (

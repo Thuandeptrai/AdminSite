@@ -32,3 +32,13 @@ export const checkOutForUser = async () => {
     }
   }
   
+  
+  export const getSalaryByUserId = async (id) => {
+    try {
+      const response = await fetchApi().get(`/workDay/getSalary/Salary/${id}`)
+  
+      return response
+    } catch (error) {
+      return error.response
+    }
+  }
